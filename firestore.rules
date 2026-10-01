@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 방(rooms/방코드) 아래만 읽고 쓸 수 있다. 그 밖은 모두 막힌다.
+    match /rooms/{room}/{rest=**} {
+      allow read, write: if room.size() >= 3 && room.size() <= 12;
+    }
+  }
+}

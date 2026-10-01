@@ -1,0 +1,783 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.5 system-ui,sans-serif;background:#f6f6f4}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>폐관 후 열람실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap">
+<style>
+
+:root{
+  --bg:#E9EEF3; --paper:#FAFBFD; --paper2:#F1F4F8; --ink:#1E2433; --muted:#5A6377; --line:#D2D9E3;
+  --lake:#2D4868; --lake-ink:#F3F6FB; --rain:#93A7C2; --pink:#C95574; --pink-soft:#F7E3E9;
+  --note:#FFF9E6; --note-ink:#3A3226; --focus:#2D6BD6; --time:#2D4868;
+  --c-hachiware:#4F7FC0; --c-usagi:#C9962A; --c-momonga:#8A78C2; --c-kurimanju:#9A6238; --c-rakko:#3F8580; --c-chiikawa:#D9829A;
+  --map-lake:#CFDDEA; --map-wall:#44506A; --map-room:#FFFFFF; --map-out:#E4E9DF; --map-path:#A99578;
+  --display:"Gaegu","Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#10151F; --paper:#18202E; --paper2:#1F2838; --ink:#E6EAF2; --muted:#9BA5B8; --line:#2D3748;
+    --lake:#22395A; --lake-ink:#EEF3FA; --rain:#6F86A8; --pink:#EE93AB; --pink-soft:#3A2230;
+    --note:#2E2A20; --note-ink:#F1E8D0; --focus:#7FB0FF; --time:#9DB8DC;
+    --map-lake:#1F3450; --map-wall:#9FB0CC; --map-room:#1B2332; --map-out:#1D2A22; --map-path:#8B7A5E;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#10151F; --paper:#18202E; --paper2:#1F2838; --ink:#E6EAF2; --muted:#9BA5B8; --line:#2D3748;
+  --lake:#22395A; --lake-ink:#EEF3FA; --rain:#6F86A8; --pink:#EE93AB; --pink-soft:#3A2230;
+  --note:#2E2A20; --note-ink:#F1E8D0; --focus:#7FB0FF; --time:#9DB8DC;
+  --map-lake:#1F3450; --map-wall:#9FB0CC; --map-room:#1B2332; --map-out:#1D2A22; --map-path:#8B7A5E;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.75;margin:0}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+h1,h2,h3{font-family:var(--display);font-weight:700;text-wrap:balance;line-height:1.25;margin:0}
+p{margin:0}
+b{font-weight:700}
+button{font-family:var(--body);font-size:15px;cursor:pointer}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+.hero{position:relative;overflow:hidden;background:var(--lake);color:var(--lake-ink);padding-block:40px 30px;padding-inline:16px}
+.hero::before{content:"";position:absolute;inset:-40px;background:repeating-linear-gradient(105deg,transparent 0 22px,rgba(255,255,255,.07) 22px 23px);animation:rain 1.4s linear infinite;pointer-events:none}
+@keyframes rain{from{transform:translate(0,0)}to{transform:translate(-8px,46px)}}
+@media (prefers-reduced-motion: reduce){.hero::before{animation:none}}
+.hero-in{position:relative;max-width:760px;margin:0 auto;z-index:1}
+.eyebrow{font-size:12.5px;letter-spacing:.12em;opacity:.8}
+.hero h1{font-size:clamp(44px,11vw,68px);margin-top:4px;letter-spacing:-.01em}
+.hero .sub{margin-top:6px;opacity:.9;max-width:34em}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.meta span{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:2px 12px;font-size:13px}
+
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.tabs-in{max-width:760px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;padding-inline:12px;scrollbar-width:none}
+.tabs-in::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);padding:12px 10px 9px;font-family:var(--display);font-size:20px;font-weight:700}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--pink)}
+.tab .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:6px;vertical-align:middle}
+
+.panel{display:grid;gap:28px;padding-top:28px}
+.sec{display:grid;gap:12px}
+.sec h2{font-size:28px}
+.sec h3{font-size:22px}
+.lead{color:var(--muted)}
+.small{font-size:13.5px;color:var(--muted)}
+.box{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px}
+.story p+p{margin-top:12px}
+.victim{display:flex;gap:12px;align-items:flex-start;background:var(--pink-soft);border-radius:10px;padding:14px 16px}
+.victim .tagname{flex:0 0 auto}
+ul,ol{margin:0;padding-left:1.2em}
+li+li{margin-top:6px}
+
+.tagname{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-weight:700;font-size:19px;line-height:1.2}
+.tagname i{width:12px;height:12px;border-radius:3px;display:inline-block;flex:0 0 auto}
+
+.tl{list-style:none;padding:0;margin:0;display:grid}
+.tl li{display:grid;grid-template-columns:62px 1fr;gap:12px;padding:9px 0;border-top:1px dashed var(--line);margin:0}
+.tl li:first-child{border-top:0}
+.tl .t{font-variant-numeric:tabular-nums;font-weight:700;color:var(--time);white-space:nowrap}
+.tl li.rain .t{color:var(--pink)}
+
+.roster{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.pc{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:6px;align-content:start;border-top:4px solid var(--cc)}
+.pc p{font-size:14px;color:var(--muted)}
+.pc .room{font-size:12.5px;color:var(--muted)}
+
+.card-sheet{background:var(--note);color:var(--note-ink);border-radius:6px;padding:18px;display:grid;gap:12px}
+.card-row{display:grid;grid-template-columns:90px 1fr;gap:10px;align-items:baseline}
+.card-row .who{font-size:13px;opacity:.75}
+.hand{font-family:var(--display);font-size:22px;line-height:1.35}
+.card-row .feat{grid-column:2;font-size:13px;opacity:.75;margin-top:-6px}
+.paper-note{background:var(--note);color:var(--note-ink);border-radius:4px;padding:12px 16px;margin:8px 0;border-left:3px solid var(--rain)}
+
+.map-wrap{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px;overflow-x:auto}
+.map-wrap svg{display:block;width:100%;min-width:520px;height:auto}
+.m-lake{fill:var(--map-lake)} .m-out{fill:var(--map-out)}
+.m-wall{fill:var(--map-room);stroke:var(--map-wall);stroke-width:2}
+.m-thin{fill:var(--map-room);stroke:var(--map-wall);stroke-width:1.2}
+.m-dock{fill:var(--map-path);stroke:var(--map-wall);stroke-width:1}
+.m-path{fill:none;stroke:var(--map-path);stroke-width:5;stroke-linecap:round;stroke-dasharray:1 9}
+.m-door{fill:var(--pink)}
+.m-t{fill:var(--ink);font-family:var(--body);font-size:13px}
+.m-s{fill:var(--muted);font-family:var(--body);font-size:11px}
+.m-h{fill:var(--ink);font-family:var(--display);font-size:20px;font-weight:700}
+.m-hatch{fill:none;stroke:var(--map-wall);stroke-width:1;opacity:.5}
+.m-bal{fill:var(--paper2);stroke:var(--map-wall);stroke-width:1.2;stroke-dasharray:4 3}
+
+.btn{border:1px solid var(--ink);background:var(--ink);color:var(--paper);border-radius:8px;padding:9px 16px;font-weight:700}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.warn{background:var(--pink);border-color:var(--pink);color:#fff}
+.btn.sm{padding:5px 12px;font-size:13.5px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.confirm{background:var(--paper2);border:1px dashed var(--muted);border-radius:10px;padding:14px 16px;display:grid;gap:10px}
+
+.sheet-head{border-radius:12px;padding:20px;background:var(--paper);border:1px solid var(--line);border-top:6px solid var(--cc);display:grid;gap:6px}
+.sheet-head h2{font-size:38px}
+.sheet-sec{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:grid;gap:10px}
+.sheet-sec h3{font-size:22px;color:var(--cc)}
+.sheet-sec p+p{margin-top:8px}
+.culprit-flag{background:var(--pink);color:#fff;padding:10px 14px;border-radius:8px;font-weight:700}
+
+.ev{border:2px solid var(--cc,var(--lake));border-radius:10px;padding:14px 16px;background:var(--paper);display:grid;gap:8px}
+.ev-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.ev .lbl{font-size:12px;letter-spacing:.08em;color:var(--muted)}
+.ev h3{font-size:21px}
+.ev.locked{border-style:dashed;color:var(--muted)}
+.ev.mine{border-color:var(--pink)}
+.badge{display:inline-block;font-size:11.5px;letter-spacing:.06em;border-radius:999px;padding:1px 9px;border:1px solid var(--line);color:var(--muted)}
+.badge.show{border-color:var(--pink);color:var(--pink)}
+
+textarea,select{width:100%;font-family:var(--body);font-size:15px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px}
+textarea{min-height:140px;resize:vertical;line-height:1.6}
+
+.flow{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.flow li{margin:0;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;gap:4px 14px;align-items:center}
+.flow li.evt{background:var(--pink-soft);border-color:transparent}
+.flow .n{font-family:var(--display);font-size:26px;font-weight:700;color:var(--pink);width:1.4em;text-align:center}
+.flow .ti{font-weight:700}
+.flow .dur{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.flow .ds{grid-column:2 / 4;font-size:14px;color:var(--muted)}
+.timer{background:var(--lake);color:var(--lake-ink);border-radius:12px;padding:16px 18px;display:grid;gap:10px}
+.timer .clock{font-size:48px;font-variant-numeric:tabular-nums;font-weight:700;line-height:1}
+.timer .btn{background:var(--lake-ink);color:var(--lake);border-color:var(--lake-ink)}
+.timer .btn.ghost{background:transparent;color:var(--lake-ink);border-color:rgba(255,255,255,.4)}
+.timer select{background:rgba(255,255,255,.1);color:var(--lake-ink);border-color:rgba(255,255,255,.3)}
+.timer select option{color:#1E2433}
+
+.step{border-left:3px solid var(--lake);padding:4px 0 4px 14px}
+.step h3{font-size:21px;margin-bottom:4px}
+.pairs{width:100%;border-collapse:collapse;font-size:14px}
+.pairs td{border-top:1px solid var(--line);padding:8px 6px;vertical-align:top}
+.pairs td:last-child{color:var(--muted)}
+.ending{background:var(--lake);color:var(--lake-ink);border-radius:12px;padding:22px 20px;display:grid;gap:10px}
+.ending h3{font-size:26px}
+.pick{display:flex;flex-wrap:wrap;gap:8px}
+.pick button{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 14px;display:inline-flex;align-items:center;gap:6px}
+.pick button i{width:10px;height:10px;border-radius:3px}
+.pick button[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+
+/* show-screen overlay */
+.overlay{position:fixed;inset:0;z-index:50;background:var(--paper);overflow-y:auto;padding:calc(env(safe-area-inset-top,0px) + 20px) 18px calc(env(safe-area-inset-bottom,0px) + 30px)}
+.overlay-in{max-width:640px;margin:0 auto;display:grid;gap:14px;font-size:18px}
+.overlay .hand{font-size:28px}
+.overlay h2{font-size:32px}
+.overlay .stamp{display:inline-block;border:2px solid var(--pink);color:var(--pink);border-radius:6px;padding:2px 10px;font-weight:700;font-size:14px;letter-spacing:.08em;justify-self:start}
+
+@media (max-width:480px){
+  .card-row{grid-template-columns:1fr}
+  .card-row .feat{grid-column:1}
+  .tl li{grid-template-columns:52px 1fr;gap:8px}
+  .flow li{grid-template-columns:auto 1fr}
+  .flow .dur{grid-column:2}
+  .flow .ds{grid-column:1 / 3}
+  .sheet-head h2{font-size:32px}
+}
+
+/* ───── live board ───── */
+[hidden]{display:none!important}
+html,body{height:100%}
+body{display:flex;flex-direction:column;overflow:hidden}
+.topbar{flex:0 0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:10px 16px;background:var(--lake);color:var(--lake-ink)}
+.topbar h1{font-size:26px;letter-spacing:-.01em}
+.topbar .grow{flex:1 1 auto}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:2px 10px;font-size:13px;white-space:nowrap}
+.pill i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.seats{display:flex;gap:4px}
+.seats span{width:22px;height:22px;border-radius:6px;display:inline-grid;place-items:center;font-size:11px;font-weight:700;color:#fff;opacity:.35;border:2px solid transparent}
+.seats span.on{opacity:1}
+.seats span.me{border-color:#fff}
+.mtabs{display:none;flex:0 0 auto;background:var(--paper);border-bottom:1px solid var(--line)}
+.mtabs button{flex:1;background:none;border:0;border-bottom:3px solid transparent;padding:10px 4px 8px;font-family:var(--display);font-size:19px;font-weight:700;color:var(--muted)}
+.mtabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--pink)}
+.board{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr) minmax(0,1fr)}
+.col{display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--line)}
+.col:last-child{border-right:0}
+.col-tabs{flex:0 0 auto;display:flex;gap:2px;overflow-x:auto;padding:0 10px;background:var(--paper);border-bottom:1px solid var(--line);scrollbar-width:none}
+.col-tabs::-webkit-scrollbar{display:none}
+.col-tabs button,.col-tabs .lbl{flex:0 0 auto;background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);padding:10px 9px 7px;font-family:var(--display);font-size:19px;font-weight:700}
+.col-tabs .lbl{color:var(--ink);border-bottom-color:var(--pink)}
+.col-tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--pink)}
+.col-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:16px;display:grid;gap:14px;align-content:start}
+.col-body > div{display:grid;gap:14px;align-content:start}
+@media (max-width:900px){
+  .mtabs{display:flex}
+  .board{grid-template-columns:minmax(0,1fr)}
+  .col{display:none;border-right:0}
+  .board[data-mt="L"] #colL,.board[data-mt="C"] #colC,.board[data-mt="R"] #colR{display:flex}
+  .topbar h1{font-size:22px}
+}
+.phase{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:12px}
+.phase .step-no{font-size:12.5px;letter-spacing:.08em;color:var(--muted)}
+.phase h2{font-size:32px}
+.phase .story p+p{margin-top:10px}
+.todo{background:var(--pink-soft);border-radius:8px;padding:12px 14px;display:grid;gap:4px}
+.todo b{font-size:13px;letter-spacing:.06em;color:var(--pink)}
+.clockrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:var(--lake);color:var(--lake-ink);border-radius:10px;padding:10px 14px}
+.clockrow .clock{font-size:32px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+.clockrow .btn{background:var(--lake-ink);color:var(--lake);border-color:var(--lake-ink)}
+.clockrow .btn.ghost{background:transparent;color:var(--lake-ink);border-color:rgba(255,255,255,.4)}
+.evt{border-left:4px solid var(--pink);background:var(--paper2);border-radius:6px;padding:12px 14px;display:grid;gap:6px}
+.evt h3{font-size:21px}
+.feed{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.feed li{margin:0;font-size:14px;display:flex;gap:8px;align-items:baseline}
+.feed .t{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums;flex:0 0 auto}
+.chip{display:inline-flex;align-items:center;gap:5px;font-weight:700;font-family:var(--display);font-size:18px;line-height:1.2}
+.chip i{width:10px;height:10px;border-radius:3px;display:inline-block;flex:0 0 auto}
+.card{border:2px solid var(--line);border-radius:10px;background:var(--paper);padding:14px 16px;display:grid;gap:8px}
+.card.pub{border-color:var(--c-ok,#3a9a5b)}
+.card.mine{border-color:var(--cc,var(--lake))}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.card h3{font-size:21px}
+.tagline{font-size:12px;letter-spacing:.06em;color:var(--muted)}
+.state{font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;white-space:nowrap}
+.state.priv{background:var(--paper2);color:var(--muted);border:1px solid var(--line)}
+.state.pubd{background:#d9f0e0;color:#1d6b38}
+:root[data-theme="dark"] .state.pubd{background:#1f3a2a;color:#9fe0b3}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .state.pubd{background:#1f3a2a;color:#9fe0b3}}
+.loc{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--paper)}
+.loc .nm{font-weight:700}
+.loc .ht{grid-column:1/2;font-size:13px;color:var(--muted)}
+.loc .confirm{grid-column:1/-1}
+.notice{border-radius:10px;padding:12px 14px;background:var(--paper2);border:1px dashed var(--muted);font-size:14px}
+.seatlist{display:grid;gap:8px}
+.seatrow{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);border-left:5px solid var(--cc);border-radius:8px;padding:10px 12px;background:var(--paper);flex-wrap:wrap}
+.seatrow .who{font-size:13px;color:var(--muted)}
+.votegrid{display:flex;flex-wrap:wrap;gap:8px}
+.votegrid button{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 14px;display:inline-flex;align-items:center;gap:6px}
+.votegrid button[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.votegrid button i{width:10px;height:10px;border-radius:3px}
+.tally{display:grid;gap:6px}
+.tally .bar{height:10px;border-radius:5px;background:var(--pink)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-size:14px;z-index:60;max-width:calc(100% - 32px)}
+.small-btns{display:flex;flex-wrap:wrap;gap:6px}
+</style>
+
+<header class="topbar">
+  <h1>폐관 후 열람실</h1>
+  <span class="pill" id="phasePill">대기실</span>
+  <span class="grow"></span>
+  <span class="seats" id="seatDots" aria-label="참가 현황"></span>
+  <span class="pill" id="mePill">관전 중</span>
+  <span class="pill" id="modePill"><i style="background:#f5c518"></i>연결 중…</span>
+</header>
+<nav class="mtabs" aria-label="화면 전환">
+  <button data-act="mt" data-arg="L">설정서</button>
+  <button data-act="mt" data-arg="C">진행</button>
+  <button data-act="mt" data-arg="R">소지·조사</button>
+</nav>
+
+<main class="board" id="board" data-mt="C">
+  <section class="col" id="colL" aria-label="설정서와 공통 자료">
+    <div class="col-tabs" role="tablist">
+      <button data-act="lt" data-arg="sheet">내 설정서</button>
+      <button data-act="lt" data-arg="common">공통 자료</button>
+      <button data-act="lt" data-arg="past">지난 진행</button>
+    </div>
+    <div class="col-body">
+      <div id="L-sheet"></div>
+      <div id="L-common" hidden>
+<div class="sec story"><h2>사건 개요</h2><div class="box story"><p>해든 도서관은 동네 주민이 이용하는 작은 도서관이다.<br>오늘은 저자 강연이 있어 평소보다 늦은 21:00에 폐관했다.<br>22:10, 야간 시설 담당 박도윤이 서고 카운터 뒤에서 쓰러진 고 사서를 발견했다.<br>사서는 이미 숨져 있었고, 곁에는 대리석 북엔드가 떨어져 있었다.<br>경찰이 도착하기까지 30분.<br>건물 안에는 세 사람이 있었다.<br>폐관 후에도 열람실에서 시험공부를 하던 자원봉사 대학생 한소라, 야간 시설 담당 박도윤, 강연 뒤 사서를 기다리던 저자 이하진.<br>이 중 한 명이 범인이다.</p></div></div>
+<div class="sec"><h2>모두가 아는 사실</h2><div class="box"><ul>
+<li>오늘은 저자 강연(19:00~20:30)이 있어 평소보다 늦은 <b>21:00에 폐관</b>했다. 정문은 그때 잠겼다.</li>
+<li>건물 안에 남아 있던 사람은 셋: 1층 열람실의 <b>한소라</b>, 시설 순찰을 돌던 <b>박도윤</b>, 2층 강연실의 <b>이하진</b>.</li>
+<li>서고 카운터 양쪽에는 대리석 북엔드 한 쌍이 놓여 있었다.</li>
+<li>서고에는 <b>열람실 쪽 문</b>과 <b>계단 쪽 문</b>, 두 개가 있다.</li>
+<li>2층과 1층은 계단으로, 지하 기계실은 별도의 비상계단으로 이어진다.</li>
+<li>22:10 박도윤이 서고 카운터 뒤에서 쓰러진 고 사서를 발견해 신고했다.</li>
+</ul></div></div>
+<div class="sec"><h2>공개 타임라인</h2><div class="box"><ol class="tl">
+<li><span class="t">19:00</span><span class="d">저자 강연 시작 (2층 강연실, 연사 이하진)</span></li>
+<li><span class="t">20:30</span><span class="d">강연 종료</span></li>
+<li><span class="t">21:00</span><span class="d">폐관. 정문 잠김</span></li>
+<li><span class="t">22:10</span><span class="d">박도윤이 서고에서 고 사서를 발견, 신고</span></li>
+<li><span class="t">22:40</span><span class="d">경찰 도착 예정</span></li>
+</ol></div></div>
+<div class="sec"><h2>도서관 단면도</h2><div class="map-wrap">
+<svg viewBox="0 0 600 430" role="img" aria-label="해든 도서관 2층, 1층, 지하 단면도">
+<rect x="0" y="0" width="600" height="430" class="m-out"/>
+<text x="14" y="34" class="m-h">2층</text>
+<rect x="70" y="14" width="400" height="96" class="m-wall"/>
+<rect x="70" y="14" width="300" height="96" class="m-thin"/><text x="160" y="58" class="m-t">강연실</text><text x="160" y="78" class="m-s">이하진 대기</text>
+<rect x="470" y="14" width="100" height="246" class="m-thin"/>
+<path d="M470 40 H570 M470 70 H570 M470 100 H570 M470 130 H570 M470 160 H570 M470 190 H570 M470 220 H570" class="m-hatch"/>
+<text x="480" y="128" class="m-t">계단</text><text x="480" y="146" class="m-s">(센서)</text>
+<text x="14" y="170" class="m-h">1층</text>
+<rect x="70" y="150" width="400" height="110" class="m-wall"/>
+<rect x="70" y="150" width="110" height="110" class="m-thin"/><text x="88" y="196" class="m-t">로비</text><text x="88" y="214" class="m-s">정문 · 잠김</text>
+<rect x="180" y="150" width="150" height="110" class="m-thin"/><text x="200" y="196" class="m-t">열람실</text><text x="200" y="214" class="m-s">12번 좌석 (한소라)</text>
+<rect x="330" y="150" width="140" height="110" class="m-thin"/><text x="350" y="196" class="m-t">서고</text><text x="350" y="214" class="m-s">카운터 · 북엔드</text>
+<rect x="326" y="190" width="8" height="26" class="m-door"/><rect x="466" y="190" width="8" height="26" class="m-door"/>
+<text x="14" y="320" class="m-h">지하</text>
+<rect x="70" y="300" width="400" height="100" class="m-wall"/>
+<rect x="70" y="300" width="290" height="100" class="m-thin"/><text x="150" y="344" class="m-t">기계실</text><text x="150" y="364" class="m-s">카드 출입 기록</text>
+<rect x="360" y="300" width="110" height="100" class="m-thin"/>
+<path d="M360 320 H470 M360 340 H470 M360 360 H470 M360 380 H470" class="m-hatch"/>
+<text x="368" y="300" class="m-s" dy="-6">비상계단 (센서 없음, 로비로)</text>
+<text x="14" y="424" class="m-s">분홍 표시는 서고의 문 두 개 (열람실 쪽, 계단 쪽).</text>
+</svg></div></div>
+</div>
+      <div id="L-past" hidden></div>
+    </div>
+  </section>
+  <section class="col" id="colC" aria-label="진행 중인 스토리">
+    <div class="col-tabs"><span class="lbl">진행</span></div>
+    <div class="col-body">
+      <div id="C-phase"></div>
+      <div id="C-vote"></div>
+      <div id="C-feed"></div>
+    </div>
+  </section>
+  <section class="col" id="colR" aria-label="소지 정보와 조사">
+    <div class="col-tabs" role="tablist">
+      <button data-act="rt" data-arg="mine">소지 정보</button>
+      <button data-act="rt" data-arg="all">공개 정보</button>
+      <button data-act="rt" data-arg="locs">조사</button>
+      <button data-act="rt" data-arg="seats">플레이어</button>
+    </div>
+    <div class="col-body"><div id="R-body"></div></div>
+  </section>
+</main>
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script type="module">
+const SECRET = "eyJzaGVldHMiOiB7InNvcmEiOiB7Im5hbWUiOiAi7ZWc7IaM6528IiwgInRhZ2xpbmUiOiAi7J6Q7JuQ67SJ7IKsIOuMgO2VmeyDnSIsICJzZWN0aW9ucyI6IFtbIuq3nOy5mSIsICI8dWw+PGxpPjxiPuuqqOuRkCDqsbDsp5Prp5DsnYQg7ZWgIOyImCDsnojri6QuPC9iPiDrspTsnbjsnbQg7JWE64uI7Ja064+EIOyekOq4sCDruYTrsIDsnYQg7KeA7YKk66Ck6rOgIOuRmOufrOuMgOuPhCDrkJzri6QuPC9saT48bGk+64uoLCA8Yj7jgIzqs7XqsJzjgI3tlZwg7Lm065Oc64qUIOuqqOuRkOydmCDtmZTrqbTsl5Ag7JuQ66y4IOq3uOuMgOuhnCDrnKjrr4DroZw8L2I+IOynhOynnOuhnCDsnbjsoJXrkJzri6QuPC9saT48bGk+7KGw7IKsIOyepeyGjOuKlCDrqLzsoIAg64iE66W4IOyCrOuejOydtCDssKjsp4DtlZzri6QuPC9saT48L3VsPiJdLCBbIuuCmOuKlCDriITqtazsnbjqsIAiLCAiPHA+7ZW065OgIOuPhOyEnOq0gOyXkOyEnCDsnbztlZjripQg7J6Q7JuQ67SJ7IKsIOuMgO2VmeyDnS48YnI+7ISx7Iuk7ZWY6rOgIOuIiOy5mOqwgCDruaDrpbTsp4Drp4wg6rec7LmZ7J2EIOyWtOq4sOuKlCDqsbQg66q7IO2VnOuLpC48YnI+7Jik64qY7J2AIO2PkOq0gCDtm4Tsl5Drj4Qg7Je0656M7Iuk7JeQIOuCqOyVhCDsi5ztl5jqs7XrtoDrpbwg7ZaI64ukKOyCrOyEnOqwgCDtl4jrnb3tlbQg7KSs64ukKS48L3A+Il0sIFsi6rOgIOyCrOyEnOyZgOydmCDqtIDqs4QiLCAiPHA+6rOgIOyCrOyEnOuKlCDrtInsgqzsi5zqsIQg7ZmV7J247ISc66W8IOyNqCDso7zripQg64u064u57J207JeI64ukLjxicj7sp4Drgpzso7wg7ZmV7J247ISc66W8IOuwmOugpOuLue2WiOqzoCwg7J207Jyg66W8IOyEpOuqhe2VtCDso7zsp4Ag7JWK7JWEIOyGjeyDge2WiOuLpC48YnI+6re4656Y64+EIOuPhOyEnOq0gOydgCDsoovslYTtlojri6QuPC9wPiJdLCBbIuq3uOuCoCDrsKQgKOynhOyLpCkiLCAiPHA+MjE6MDAg7Y+Q6rSAIO2bhCDsl7Trnozsi6QgMTLrsogg7KKM7ISd7JeQ7IScIOqzteu2gC48YnI+MjE6NDDqsr0g7ISc6rOgIOyqveyXkOyEnCDrp5Dri6TtiLwg7IaM66as6rCALCAyMTo0M+qyvSDrkZTtg4HtlZwg7IaM66as6rCAIOuTpOuguOuLpC48YnI+66y07ISc7JuM7IScIOybgOyngeydtOyngCDrqrvtlojri6QuPGJyPjIyOjEwIOuPhOycpOydmCDsmbjsuajsl5Ag65uw7Ja06rCU64ukLjwvcD4iXSwgWyLrgpjsnZgg67mE67CAIiwgIjxwPuu0ieyCrOyLnOqwhCDrsJjroKQg66y47J6QIOuVjOusuOyXkCDsgqzshJzrpbwg7JuQ66ed7ZaI64uk64qUIOyCrOyLpCjrj5nquLDsspjrn7wg67O07J28IOyImCDsnojri6QpLjxicj7shozrpqzrpbwg65Oj6rOg64+EIOyVhOustOqyg+uPhCDtlZjsp4Ag66q77ZaI64uk64qUIOyjhOyxheqwkC48L3A+Il0sIFsi66qp7ZGc7JmAIOyXsOq4sCDtjIEiLCAiPHA+67KU7J247J2EIOywvuuKlOuLpC48YnI+64iE66qF7J2AIOyTsOyngCDslYrripTri6QuPGJyPuu5hOuwgOydgCDsp4DsvJzrj4Qg65CY6rOgIOqzteqwnO2VtOuPhCDrkJzri6QuPGJyPuywqOu2hO2VmOqyjCDspp3qsbDrpbwg66y764qUIO2VmeyDneyymOufvC48YnI+6rKB7J20IOuCmOuptCDrqqnshozrpqzqsIAg7J6R7JWE7KC464+EIOyii+uLpC48L3A+Il1dLCAiZXZpZGVuY2UiOiBbWyLshJzqs6Ag7Kq97JeQ7IScIOuTpOydgCDshozrpqwiLCAiPHA+MjE6NDDqsr0g7ISc6rOgIOyqveyXkOyEnCDsl6zsnpDsnZgg64KgIOyEoCDrqqnshozrpqzqsIAg65Ok66C464ukLjxicj5cIuy0iO2MkOuzuCDslrTrlJQg6rCU7Ja07JqUPyDtjJTslZjso6A/XCIg7IKs7ISc6rCAIFwi7J6g6rmQ66eM7JqULCDsp4TsoJXtlZjshLjsmpRcIiDtlZjripQg7IaM66as64+ELjxicj4yMTo0M+qyvSDrkZTtg4HtlZwg7IaM66asIO2VnCDrsogsIOq3uCDrkqTroZwg7KGw7Jqp7ZW07KGM64ukLjwvcD4iXSwgWyIxMuuyiCDsoozshJ0g7J207JqpIOq4sOuhnSIsICI8cD7sl7Trnozsi6QgMTLrsogg7KKM7ISdIOuLqOunkOq4sCDquLDroZ06IDIxOjA1IOywqeyEnSwg7J207ZuEIDXrtoTrp4jri6Qg7YSw7LmYIOqwseyLoOydtCAyMjoxMOq5jOyngCDrgYrquYAg7JeG7J20IOydtOyWtOynkC48YnI+KOyekOumrOulvCDruYTsmrDrqbQg6rCx7Iug7J20IOuBiuq4tOuLpC4pPC9wPiJdLCBbIuyCrOyEnOydmCDrrLjsnpAgKOuwmOugpCkiLCAiPHA+7KeA64Kc7KO8IOyCrOyEnOqwgCDrs7Trgrgg66y47J6QOiBcIuu0ieyCrOyLnOqwhCDtmZXsnbjshJzripQg66q7IOyNqCDrk5zrpr3ri4jri6QuPGJyPuyCrOycoOuKlCDsp4HsoJEg7Jik7IWU7IScIOuTpOycvOyEuOyalC5cIiDshozrnbzripQg7J20IOydvOuhnCDsgqzshJzrpbwg7JuQ66ed7ZWY6rOgIOyeiOyXiOuLpC48L3A+Il1dfSwgImRveXVuIjogeyJuYW1lIjogIuuwleuPhOycpCIsICJ0YWdsaW5lIjogIuyVvOqwhCDsi5zshKTqtIDrpqwiLCAic2VjdGlvbnMiOiBbWyLqt5zsuZkiLCAiPHVsPjxsaT48Yj7rqqjrkZAg6rGw7KeT66eQ7J2EIO2VoCDsiJgg7J6I64ukLjwvYj4g67KU7J247J20IOyVhOuLiOyWtOuPhCDsnpDquLAg67mE67CA7J2EIOyngO2CpOugpOqzoCDrkZjrn6zrjIDrj4Qg65Cc64ukLjwvbGk+PGxpPuuLqCwgPGI+44CM6rO16rCc44CN7ZWcIOy5tOuTnOuKlCDrqqjrkZDsnZgg7ZmU66m07JeQIOybkOusuCDqt7jrjIDroZwg65yo66+A66GcPC9iPiDsp4Tsp5zroZwg7J247KCV65Cc64ukLjwvbGk+PGxpPuyhsOyCrCDsnqXshozripQg66i87KCAIOuIhOuluCDsgqzrnozsnbQg7LCo7KeA7ZWc64ukLjwvbGk+PC91bD4iXSwgWyLrgpjripQg64iE6rWs7J246rCAIiwgIjxwPuyVvOqwhCDsi5zshKTqtIDrpqwg64u064u5Ljxicj7rp5DsiJjqsIAg7KCB6rOgIOydvOydgCDqvLzqvLztlZjri6QuPGJyPuqzhOuLqCDshLzshJzsmYAg6riw6rOE7IukIOqwmeydgCDsi5zshKQg6riw66Gd7J2EIOq0gOumrO2VnOuLpC48L3A+Il0sIFsi6rOgIOyCrOyEnOyZgOydmCDqtIDqs4QiLCAiPHA+6rOgIOyCrOyEnOyZgOuKlCA164WE7Ke4IOqwmeydtCDsnbztlojri6QuPGJyPuyCrOyEnOqwgCDrtoDtg4HtlZjrqbQg6rGw7KCI7ZWY7KeAIOuqu+2WiOuLpC48L3A+Il0sIFsi6re464KgIOuwpCAo7KeE7IukKSIsICI8cD4yMToxMCDsiJzssLAg7Iuc7J6RLjxicj4yMToyNSDsp4DtlZgg6riw6rOE7Iuk7JeQ7IScIO2ZmOq4sOyepey5mOulvCDsoJDqsoDtlojri6Qo7Lm065Oc66GcIOyeheyLpCkuPGJyPjIyOjA1IO2HtOyLpO2VtCDruYTsg4Hqs4Tri6jsnLzroZwg7Jis65287JmU6rOgLCAyMjoxMCDshJzqs6Dsl5DshJwg7JOw65+s7KeEIOyCrOyEnOulvCDrsJzqsqztlbQg7Iug6rOg7ZaI64ukLjwvcD4iXSwgWyLrgpjsnZgg67mE67CAIiwgIjxwPuyCrOyEnOqwgCDsnqXshJzrpbwg66qw656YIOuwmOy2nO2VtCDtjJDri6TripQg6rG4IOyVjOuptOyEnOuPhCDsiJjqs6DruYQgNTDrp4wg7JuQ7J2EIOuwm+qzoCDrj4TsmZTri6QuPGJyPuyVjOugpOyngOuptCDqs7XrspTsnLzroZwg66qw66aw64ukLjwvcD4iXSwgWyLrqqntkZzsmYAg7Jew6riwIO2MgSIsICI8cD7rspTsnbjsnYQg7LC+64qU64ukLjxicj7qs7XrspTsnLzroZwg66qw66as7KeAIOyViuuKlOuLpC48YnI+7Ken6rKMIOunkO2VmOqzoCDquLDroZ3snYQg6re86rGw66GcIOunkO2VmOuKlCDsgqzrnozsspjrn7wuPGJyPuyEvOyEnCDquLDroZ3snYQg6rSA66as7ZWY64qUIOyCrOuejOydtOudvCDsnZjsi6zrsJvsnYQg7IiYIOyeiOuLpOuKlCDqsbgg7JWI64ukLjwvcD4iXV0sICJldmlkZW5jZSI6IFtbIuqzhOuLqCDshLzshJwg6riw66GdIiwgIjxwPjHsuLXihpQy7Li1IOqzhOuLqCDshLzshJwo7Iuc7ISkIOuLtOuLuSDqtIDrpqwpOiAyMTozNCAy7Li14oaSMey4tSDsnbTrj5kgMe2ajCwgMjE6NDkgMey4teKGkjLsuLUg7J2064+ZIDHtmowuPGJyPuq3uCDsmbgg7J2064+ZIOyXhuydjC48L3A+Il0sIFsi6riw6rOE7IukIOy2nOyehSDquLDroZ0iLCAiPHA+7KeA7ZWYIOq4sOqzhOyLpCDrrLjsnYAg7Lm065Oc66GcIOuTpOyWtOqwiCDrlYzsmYAg64KY6rCIIOuVjCDrqqjrkZAg6riw66Gd65Cc64ukOiAyMToyNSDsnoXsi6QsIDIyOjA1IO2HtOyLpC48YnI+6re4IOyCrOydtCDstpzsnoUg7JeG7J2MLjwvcD4iXSwgWyLsgqzshJzsnZgg7Iah6riIIOuCtOyXrSIsICI8cD7qs6Ag7IKs7ISc6rCAIOuPhOycpOyXkOqyjCDstZzqt7wg7ISdIOuLrOqwhCDrs7TrgrggNTDrp4wg7JuQIOyGoeq4iCDrgrTsl60uPGJyPuuplOuqqOuegOyXkOuKlCBcIuyDgeyekCDsoJXrpqwg7IiY6rOg67mEXCIuPGJyPuuPhOycpOydgCDsgqzshJzqsIAg7J6l7ISc66W8IOuqsOuemCDrsJjstpztlbQg7YyQ64uk64qUIOqxuCDslYzqs6Ag64+E7JmU64ukLjwvcD4iXV19LCAiaGFqaW4iOiB7Im5hbWUiOiAi7J207ZWY7KeEIiwgInRhZ2xpbmUiOiAi7KeA7JetIOyekeqwgCAo67KU7J24KSIsICJzZWN0aW9ucyI6IFtbIuq3nOy5mSIsICI8dWw+PGxpPjxiPuuqqOuRkCDqsbDsp5Prp5DsnYQg7ZWgIOyImCDsnojri6QuPC9iPiDrspTsnbjsnbQg7JWE64uI7Ja064+EIOyekOq4sCDruYTrsIDsnYQg7KeA7YKk66Ck6rOgIOuRmOufrOuMgOuPhCDrkJzri6QuPC9saT48bGk+64uoLCA8Yj7jgIzqs7XqsJzjgI3tlZwg7Lm065Oc64qUIOuqqOuRkOydmCDtmZTrqbTsl5Ag7JuQ66y4IOq3uOuMgOuhnCDrnKjrr4DroZw8L2I+IOynhOynnOuhnCDsnbjsoJXrkJzri6QuPC9saT48bGk+7KGw7IKsIOyepeyGjOuKlCDrqLzsoIAg64iE66W4IOyCrOuejOydtCDssKjsp4DtlZzri6QuPC9saT48L3VsPiJdLCBbIuuLueyLoOydtCDrspTsnbjsnoXri4jri6QiLCAiPHAgY2xhc3M9XCJjdWxwcml0LWZsYWdcIj7qs6Ag7IKs7ISc66W8IOyjveyduCDqsbQg64u57Iug7J2064ukLiDsnbQg7ZmU66m07J2AIOuIhOq1rOyXkOqyjOuPhCDrs7Tsl6wg7KO87KeAIOuniOudvC4g6rGw7KeT66eQ7J2AIOuIhOq1rOuCmCDtlaAg7IiYIOyeiOqzoCwg64Gd6rmM7KeAIOyngOuqqeuLue2VmOyngCDslYrsnLzrqbQg7J206ri064ukLjwvcD4iXSwgWyLrgpjripQg64iE6rWs7J246rCAIiwgIjxwPuyngOyXrSDsnpHqsIAuPGJyPuyYpOuKmCDrj4TshJzqtIDsl5DshJwg7KCA7J6QIOqwleyXsOydhCDtlojri6QuPGJyPuyCrOuejOuTpCDslZ7sl5DshJzripQg67aA65Oc65+97KeA66eMIOuniOydjOydtCDsg4HtlZjrqbQg64Kg7J20IOyEoOuLpC48YnI+M+uFhCDsoIQg7LSI7YyQ67O4IOyEuCDqtozsnYQg64+E7ISc6rSA7JeQIOq4sOymne2WiOuLpC48L3A+Il0sIFsi6re464KgIOuwpCAo7KeE7IukKSIsICI8cD7stZzqt7wg7LSI7YyQ67O47J20IFwi67aE7IukXCIg7LKY66as65CcIOqxuCDslYzqsowg65CQ64ukLjxicj7smKTripggMTg6NTAg7IKs7ISc7J2YIOusuOyekOulvCDrsJvqs6Ag7Y+Q6rSAIO2bhCAy7Li1IOqwleyXsOyLpOyXkOyEnCDquLDri6TroLjri6QuPGJyPjIxOjM0IOqzhOuLqOycvOuhnCDrgrTroKTqsIAg7ISc6rOg7JeQ7IScIOyCrOyEnOulvCDstpTqtoHtlojri6QuPGJyPuyCrOyEnOqwgCBcIuq0gOumrCDruYTsmqkg65WM66y47JeQIOyWtOyplCDsiJgg7JeG7JeI64ukXCLqs6Ag7ZWY7J6QIOqyqeu2hO2VtCDsubTsmrTthLDsnZgg64yA66as7ISdIOu2geyXlOuTnOuhnCAyMTo0MyDrgrTroKTss6Tri6QuPGJyPjIxOjQ5IOqzhOuLqOycvOuhnCAy7Li17JeQIOuPjOyVhOyZlOqzoCwgMjI6MTAg7IaM656A7J20IOuCmOyekCDrhoDrnoAg7LKZIOuCtOugpOyZlOuLpC48L3A+Il0sIFsi7Iio6rWs66mNIiwgIjxwPuuPhOycpOydgCDshLzshJwg6riw66Gd7J2EIOq0gOumrO2VmOuKlCDsgqzrnozsnbTri6Qo7KGw7J6RIOydmOyLrCDqsIDriqUpLjxicj7shozrnbzripQg7IKs7ISc66W8IOybkOunne2VoCDsnbTsnKDqsIAg7J6I64ukLjxicj7sgqzshJzsnZgg66y47J6Q7JmAIOyepeyEnCDquLDroZ3snYAg6rO16rCc7ZWY7KeAIOyViuyVhOuPhCDrkJzri6QuPGJyPuyEvOyEnCDquLDroZ3snbQg6rO16rCc65CY66m0IOydtOugh+qyjCDrp5DtlaAg7IiYIOyeiOuLpDogXCLrgrTroKTqsIDshJwgMey4tSDtmZTsnqXsi6Trp4wg6rCU64ukLjxicj7qt7jrlYwg7IKs7ISc64qUIOupgOypoe2WiOuLpC5cIjwvcD4iXSwgWyLrqqntkZzsmYAg7Jew6riwIO2MgSIsICI8cD7sp4Drqqnri7ntlZjsp4Ag7JWK64qU64ukLjxicj7smrDslYTtlZjqs6Ag7ZS87ZW07J6QIOqwmeydgCDrqqnshozrpqzroZwuPGJyPuyDge2ZqeydtCDrtojrpqztlbTsp4DrqbQg64+E7Jyk7J20IOyEvOyEnCDquLDroZ3snYQg6rSA66as7ZWc64uk64qUIOygkCwg7IaM65286rCAIOyCrOyEnOulvCDsm5Drp53tlojri6TripQg7KCQ7J2EIOynmuyWtCDsnZjsi6zsnYQg64+M66a0IOyImCDsnojri6QuPC9wPiJdXSwgImV2aWRlbmNlIjogW1si7IKs7ISc7J2YIOusuOyekCIsICI8cD7smKTripggMTg6NTAg7IKs7ISc6rCAIOuztOuCuCDrrLjsnpA6IFwi6rCV7JewIOuBneuCmOuptCDtj5DqtIAg7ZuE7JeQ64+EIDLsuLUg6rCV7Jew7Iuk7JeQ7IScIOq4sOuLpOugpCDso7zshLjsmpQuPGJyPuq4sOymne2VmOyLoCDstIjtjJDrs7gg6rG07Jy866GcIOunkOyUgOuTnOumtCDqsowg7J6I7Iq164uI64ukLlwiPC9wPiJdLCBbIuy0iO2MkOuzuCDsnqXshJwg6riw66GdIiwgIjxwPuq4sOymne2VnCDstIjtjJDrs7ggM+q2jCDspJEgMuq2jOydtCDsnqXshJwg7Iuc7Iqk7YWc7JeQ7IScIFwi67aE7IukXCIg7LKY66as65CY7Ja0IOyeiOuLpC48YnI+7LKY66asIOydvOyekOuKlCDrqqjrkZAg7KeA64KcIOuRkCDri6wg7J2064K0LCDsspjrpqzsnpDripQg6rOgIOyCrOyEnC48L3A+Il0sIFsi6rCV7JewIOuFueydjCDtjIzsnbwiLCAiPHA+7Jik64qYIOyggOyekCDqsJXsl7Ag64W57J2MIO2MjOydvC48YnI+MTk6MDAg7Iuc7J6RLCAyMDozMCDsooXro4wuPGJyPuydtO2bhCAyMTowMCDtj5DqtIDquYzsp4Ag6rCV7Jew7IukIOygleumrCDshozrpqzqsIAg7J207Ja07KeE64ukLjwvcD4iXV19fSwgImxvY3MiOiBbeyJpZCI6ICJzdGFjayIsICJuYW1lIjogIuyEnOqzoCAo7ZiE7J6lKSIsICJoaW50IjogIjHsuLUsIOyCrOyEnOqwgCDsk7Drn6zsoLgg7J6I642YIOqzsyIsICJib2R5IjogIjxwPuy5tOyatO2EsCDslYTrnpgg64yA66as7ISdIOu2geyXlOuTnCDtlZjrgpjqsIAg65ao7Ja07KC4IOyeiOuLpC48YnI+7ZWcIOyMjSDspJEg64uk66W4IO2VmOuCmOuKlCDsubTsmrTthLAg7JyEIOygnOyekOumrOyXkCDsnojri6QuPGJyPuy5tOyatO2EsCDsnIQg7J6l7IScIOuMgOyepeydtCBcIuq4sOymnSDrj4TshJxcIiDsqr3snLzroZwg7Y687LOQ7KC4IOyeiOqzoCwg7LSI7YyQ67O4IOuRkCDspITsl5Ag67mo6rCEIOykhOydtCDqt7jslrTsoLgg7J6I64ukLjxicj7shJzqs6Ag66y47J2AIOyXtOuejOyLpCDsqr3qs7wg6rOE64uoIOyqvSDrkZAg6rCcLjxicj7rkZgg64ukIOyeoOq4sOyngCDslYrslZjri6QuPC9wPiJ9LCB7ImlkIjogImxlY3R1cmUiLCAibmFtZSI6ICIy7Li1IOqwleyXsOyLpCIsICJoaW50IjogIu2VmOynhOydtCDquLDri6TrpqzrjZgg6rOzIiwgImJvZHkiOiAiPHA+6rCV7JewIOyekOujjCDsg4HsnpDqsIAg7KCV66as65CcIOyxhCDrhpPsl6wg7J6I64ukLjxicj7tg4HsnpAg7JyEIOyiheydtOy7tSDrkZAg6rCcLjxicj7tlZjrgpjripQg67CY7K+kIOuniOyFqOqzoCwg7ZWY64KY64qUIOyGkOuMgOyngCDslYrsnYAg7LGEIOyLneyWtCDsnojri6QuPGJyPuywveqwgCDsnZjsnpDsl5Ag7ZWY7KeE7J2YIOy5tOuUlOqxtOydtCDqsbjroKQg7J6I64ukLjxicj7qsJXsl7Dsi6Tsl5DshJwgMey4teycvOuhnCDqsIDripQg6ri47J2AIOyEvOyEnOqwgCDri6zrprAg6rOE64uo67+Q7J2064ukLjwvcD4ifSwgeyJpZCI6ICJtYWNoaW5lIiwgIm5hbWUiOiAi7KeA7ZWYIOq4sOqzhOyLpCDslZ4iLCAiaGludCI6ICLrj4TsnKTsnbQg7KCQ6rKA7ZWY642YIOqzsyIsICJib2R5IjogIjxwPuq4sOqzhOyLpCDrrLgg7JiGIOy2nOyehSDri6jrp5DquLAg7ZmU66m0OiBcIuuniOyngOuniSDth7Tsi6QgMjI6MDVcIi48YnI+7ZmY6riw7J6l7LmYIOygkOqygO2RnOyXkCAyMTozMCwgMjE6NDUsIDIyOjAwIOyEuCDrsogg7ISc66qF7J20IOyeiOuLpC48YnI+7KeA7ZWY7JeQ7IScIDHsuLUg66Gc67mE66GcIOyYrOudvOqwgOuKlCDruYTsg4Hqs4Tri6jsl5Qg7J6R7JeF7ZmUIOyekOq1reunjCDrs7Tsnbjri6QuPC9wPiJ9LCB7ImlkIjogInJlYWRpbmciLCAibmFtZSI6ICIx7Li1IOyXtOuejOyLpCIsICJoaW50IjogIuyGjOudvOqwgCDqs7XrtoDtlZjrjZgg6rOzIiwgImJvZHkiOiAiPHA+MTLrsogg7KKM7ISd7JeQIO2OvOy5nCDrrLjsoJzsp5Hqs7wg7Iud7J2AIOy7pO2UvC48YnI+7KKM7ISd7JeQ7IScIOyEnOqzoOydmCDsl7Trnozsi6Qg7Kq9IOusuOydtCDrs7TsnbTsp4Drp4wsIOyEnOqzoCDslYjsqr0g7Lm07Jq07YSw64qUIOyxheyepeyXkCDqsIDroKQg67O07J207KeAIOyViuuKlOuLpC48YnI+7ISc6rOgIOyqvSDrrLjsnYAg7KCA64WBIOuCtOuCtCDrsJjsr6Qg7Je066CkIOyeiOyXiOuNmCDrk68g66y467Cb7Lmo7J20IOuBvOybjOyguCDsnojri6QuPC9wPiJ9LCB7ImlkIjogImxvYmJ5IiwgIm5hbWUiOiAi66Gc67mEIMK3IOygleusuCIsICJoaW50IjogIjHsuLUg7J6F6rWsIiwgImJvZHkiOiAiPHA+7KCV66y47J2AIOyViOyqveyXkOyEnCDsnqDqsqgg7J6I64ukLjxicj4yMTowMCDsnbTtm4Qg7KCV66y4IOy2nOyehSDquLDroZ3snYAg7JeG64ukLjxicj7roZzruYQg6rKM7Iuc7YyQ7JeQIOyYpOuKmCDsoIDsnpAg6rCV7JewIO2PrOyKpO2EsC48YnI+67aE7Iuk66y8IOuwlOq1rOuLiCDrp6gg7JyE7JeQIFwi7LSI7YyQ67O4IOyerOqzoCDrrLjsnZhcIiDrqZTrqqgg7ZWcIOyepSwg6riA7JSo64qUIOqzoCDsgqzshJzsnZgg6rKD7J2064ukLjwvcD4ifV0sICJkZWVwIjogW10sICJldmVudHMiOiBbWyLqsr3ssLAg66y07KCEIOKRoCIsICI8cD5cIuyCrOunnSDstpTsoJUg7Iuc6rCB7J2AIDIxOjQwfjIxOjUwLjxicj7rtoHsl5Trk5zroZwg66i466as66W8IO2VnCDssKjroYAg6rCA6rKp64u57ZaI64ukLjxicj7tnYnquLDripQg7ZiE7J6l7J2YIOu2geyXlOuTnCDtlZjrgpjrv5DsnbTri6QuXCI8L3A+Il0sIFsi6rK97LCwIOustOyghCDikaEiLCAiPHA+XCLqs4Tri6gg7IS87ISc64qUIDHsuLXqs7wgMuy4tSDsgqzsnbQg7J2064+Z66eMIOq4sOuhne2VnOuLpC48YnI+7KeA7ZWYIOq4sOqzhOyLpOuhnCDqsIDripQg6ri47J2AIOuzhOuPhOydmCDruYTsg4Hqs4Tri6jsnbTrnbwg7IS87ISc7JeQIOyeoe2eiOyngCDslYrripTri6QuPGJyPuyEvOyEnCDquLDroZ3snYAg7Iuc7ISkIOuLtOuLueydtCDqtIDrpqztlZzri6QuXCI8L3A+Il1dLCAic29sdXRpb24iOiB7ImN1bHByaXQiOiAiaGFqaW4iLCAidGl0bGVBIjogIuu5qOqwhCDspIQg65GQIOqwnCIsICJ0aXRsZUIiOiAi64uk7J2MIOq4sOymnSIsICJ0cnV0aCI6ICI8cD7snbTtlZjsp4TsnYAgM+uFhCDsoIQg6riw7Kad7ZWcIOy0iO2MkOuzuCDshLgg6raMIOykkSDrkZAg6raM7J20IOuqsOuemCDtjJTroLjri6TripQg6rG4IOyVjOqyjCDrkJDri6QuPGJyPuyCrOyEnOydmCDrrLjsnpDrpbwg67Cb6rOgIO2PkOq0gCDtm4QgMuy4teyXkOyEnCDquLDri6Trpqzri6TqsIAgMjE6MzQg7ISc6rOg66GcIOuCtOugpOqwgCDsgqzshJzrpbwg7LaU6raB7ZaI6rOgLCDqsqnrtoTtlbQgMjE6NDMg64yA66as7ISdIOu2geyXlOuTnOuhnCDrgrTroKTss6Tri6QuPGJyPjIxOjQ5IDLsuLXsnLzroZwg64+M7JWE7JmU64ukLjwvcD4iLCAic3RlcHMiOiBbWyIxLiDsgqzrp50g7Iuc6rCBIiwgIuqyveywsCDshozqsqw6IDIxOjQwfjIxOjUwLiDshozrnbzsnZgg7Kad7Ja4KDIxOjQwIOyXrOyekCDrqqnshozrpqwsIDIxOjQzIOuRlO2Dge2VnCDshozrpqwp6rO8IOunnuuKlOuLpC4iXSwgWyIyLiDrj4TsnKTsnYAg7JWE64uI64ukIiwgIuq4sOqzhOyLpCDstpzsnoUg6riw66GdOiAyMToyNSDsnoXsi6R+MjI6MDUg7Ye07IukLCDsgqzsnbQg7Lac7J6FIOyXhuydjC4g7IKs66edIOyLnOqwgSDrgrTrgrQg7KeA7ZWYIOq4sOqzhOyLpOyXkCDsnojsl4jri6QuIOqzhOuLqCDshLzshJzripQg7KeA7ZWYIOu5hOyDgeqzhOuLqOydhCDquLDroZ3tlZjsp4Ag7JWK7Jy866+A66GcIOyEvOyEnCDquLDroZ3snZgg7J2064+Z7J2AIOuPhOycpOydtCDslYTri4jri6QuIl0sIFsiMy4g7IaM652864qUIOyVhOuLiOuLpCIsICIxMuuyiCDsoozshJ0g7YSw7LmYIOqwseyLoOydtCAyMTowNX4yMjoxMCDrgYrquYAg7JeG7J20IOydtOyWtOyhjOuLpC4g7IKs66edIOyLnOqwgeyXkCDsnpDrpqzrpbwg67mE7Jqw7KeAIOyViuyVmOuLpC4gMjE6NDDsnZgg66qp7IaM66as64qUIFwi7Jes7J6QXCLsmIDsp4Drp4wg7IaM652864qUIOq3uCDrqqnshozrpqzrpbwg65Ok7J2AIOyCrOuejOydtOuLpC4iXSwgWyI0LiDrgqjripQg7IKs656MIiwgIuqzhOuLqCDshLzshJw6IDIxOjM0IDLsuLXihpIx7Li1LCAyMTo0OSAx7Li14oaSMuy4tS4gMey4teyXkOyEnCDsnbzslrTrgpwg7IKs6rG0IOyLnOqwgSgyMTo0MH4yMTo1MCkg7ZWc6rCA7Jq0642w7JeQIDLsuLXsl5DshJwg64K066Ck7JmAIOyYrOudvOqwhCDsgqzrnozsnbQg7J6I64ukLiDqsbTrrLwg7JWI7J2YIOyEuCDsgqzrnowg7KSRIDLsuLXsl5Ag7J6I642YIOyCrOuejOydgCDtlZjsp4Trv5DsnbTri6Qo66y47J6QOiAy7Li1IOqwleyXsOyLpCDrjIDquLApLiJdLCBbIjUuIOyIqOq1rOupjSIsICLtlZjsp4TsnYAgXCLshLzshJzripQg7Iuc7ISkIOuLtOuLueydtCDqtIDrpqztlZjri4gg7KGw7J6R7ZWgIOyImCDsnojri6RcIiwgXCLrgrTroKTqsIDshJwg7ZmU7J6l7Iuk66eMIOqwlOuLpFwi6rOgIOyjvOyepe2VoCDsiJgg7J6I64ukLiDtlZjsp4Drp4wg6riw6rOE7IukIOy2nOyehSDquLDroZ3qs7wg7IaM65287J2YIOyijOyEnSDquLDroZ0sIOuqqeyGjOumrCDspp3slrjsnbQg7ISc66GcIOunnuusvOugpCDshLzshJwg6riw66Gd7J2EIOuSt+uwm+y5qO2VnOuLpC4iXSwgWyI2LiDrj5nquLAiLCAi7J6l7IScIOq4sOuhnTog7LSI7YyQ67O4IDPqtowg7KSRIDLqtozsnbQg65GQIOuLrCDslYjsl5AgXCLrtoTsi6RcIiDsspjrpqzrkKgo7LKY66as7J6QOiDqs6Ag7IKs7IScKS4g7IaM65286rCAIOuTpOydgCBcIuy0iO2MkOuzuCDslrTrlJQg6rCU7Ja07JqUPyDtjJTslZjso6A/XCLsmYAg7J287LmYLiDrj4TsnKTsnZgg7Iah6riIIOuCtOyXreydgCDsgqzshJzqsIAg7J6l7ISc66W8IOuqsOuemCDtjJAg7KCV7Zmp7J2EIOuztOyXrCDspIDri6QuIl1dLCAicGFpcnMiOiBbWyLsl6zsnpAg66qp7IaM66asIiwgIu2VnOyGjOudvCDCtyDsnbTtlZjsp4QiXSwgWyLshLzshJwg6riw66Gd7J2EIOuLpOujsCDsiJgg7J6I64qUIOyCrOuejCIsICLrsJXrj4TsnKQiXSwgWyLsgqzshJzrpbwg7JuQ66ed7ZWgIOydtOycoCIsICLtlZzshozrnbwgwrcg7J207ZWY7KeEIl0sIFsi7IKs7ISc7JmAIOuPiOydtCDslr3tnowg7IKs656MIiwgIuuwleuPhOycpCDCtyDsnbTtlZjsp4Qo7LSI7YyQ67O4KSJdXSwgInNlY3JldHMiOiBbWyLtlZzshozrnbwiLCAi67SJ7IKs7Iuc6rCEIOuwmOugpCDrrLjsnpAsIOyGjOumrOulvCDrk6Pqs6Drj4Qg7JuA7KeB7J207KeAIOuqu+2VnCDso4TssYXqsJAuIl0sIFsi67CV64+E7JykIiwgIuyCrOyEnOydmCDsnqXshJwg67CY7Lac7J2EIOyVjOqzoCDsiJjqs6DruYQgNTDrp4wg7JuQ7J2EIOuwm+yVmOuLpC4iXSwgWyLsnbTtlZjsp4QiLCAi67KU7J24LiJdXSwgImVuZGluZ0EiOiAiPHA+7IS4IOyGkOqwgOudveydtCDsnbTtlZjsp4TsnYQg6rCA66as7Lyw64ukLjxicj7tlZjsp4TsnYAg7ZWc7LC4IOunkOydtCDsl4bri6TqsIAg7Lm065SU6rG07J2EIOynkeyWtCDrk6Tsl4jri6QuPGJyPlwi6re4IOyxheuTpOydgCDsoJwg7LKrIOyGjOyEpOydtOyXiOyWtOyalC48YnI+7IS4IOq2jOuwluyXkCDslYgg64Ko7J2ALlwiIOqyveywsOydtCDrj4TssKntlojsnYQg65WMIO2VmOynhOydgCDroZzruYQg7J2Y7J6Q7JeQIOyVieyVhCDsnojsl4jri6QuPGJyPuuLpOydjCDrgqAg7J6l7IScIOuMgOyepeydmCDruajqsIQg7KSEIOyYhuyXkCBcIu2ajOyImCDspJFcIuydtOudvOuKlCDquIDsnpDqsIAg7KCB7ZiU64ukLjwvcD4iLCAiZW5kaW5nQiI6ICI8cD7sp4DrqqnsnYAg67mX64KY6rCU64ukLjxicj7qsr3ssLDsnYAg7JeJ65qx7ZWcIOyCrOuejOyXkOqyjCDsp4jrrLjsnYQg7I+f7JWE64OI6rOgLCDtlZjsp4TsnYAg7KGw7Jqp7Z6IIOynkeycvOuhnCDrj4zslYTqsJTri6QuPGJyPuuLpOydjCDri6wg7ZWY7KeE7J2AIOuLpOuluCDrj4TshJzqtIDsl5DshJwg6rCV7Jew7J2EIO2WiOuLpC48YnI+6re4IOuPhOyEnOq0gOydmCDquLDspp0g66qp66Gd7JeQ64+EIOy0iO2MkOuzuCDtlZwg6raM7J20IOyYrOudvCDsnojsl4jri6QuPC9wPiJ9LCAicGhhc2VzIjogW3sidGl0bGUiOiAi64yA6riw7IukIiwgImR1ciI6IDAsICJib2R5IjogIjxwPuyEuCDrqoXsnbQg6rCB7J6QIOy6kOumre2EsOulvCDqs6DrpbTrqbQg7Iuc7J6R7ZWp64uI64ukLiDrspTsnbjsnYAg7LqQ66at7YSw7JeQIOygle2VtOyguCDsnojsnLzri4gsIOuIhOqwgCDriITqtazrpbwg66eh7J2E7KeA64qUIOuvuOumrCDsoJzruYTrvZHquLDroZwg7KCV7ZWY7IS47JqULjwvcD48cD7shKTsoJXshJzsmYAg7IaM7KeAIOygleuztOuKlCDqs6Drpbgg7IKs656M7J2YIO2ZlOuptOyXkOunjCDsl7Trpr3ri4jri6QuPC9wPjx1bD48bGk+PGI+66qo65GQIOqxsOynk+unkOydhCDtlaAg7IiYIOyeiOuLpC48L2I+IOuylOyduOydtCDslYTri4jslrTrj4Qg7J6Q6riwIOu5hOuwgOydhCDsp4DtgqTroKTqs6Ag65GY65+s64yA64+EIOuQnOuLpC48L2xpPjxsaT7ri6gsIDxiPuOAjOqzteqwnOOAje2VnCDsubTrk5zripQg66qo65GQ7J2YIO2ZlOuptOyXkCDsm5DrrLgg6re464yA66GcIOucqOuvgOuhnDwvYj4g7KeE7Kec66GcIOyduOygleuQnOuLpC48L2xpPjxsaT7sobDsgqwg7J6l7IaM64qUIOuovOyggCDriITrpbgg7IKs656M7J20IOywqOyngO2VnOuLpC48L2xpPjwvdWw+IiwgInRvZG8iOiAi7JWE656Y7JeQ7IScIOyekOq4sCDsupDrpq3thLDrpbwg6rOg66W464ukLiDrqqjrkZAg66qo7J2066m0IOuIhOq1sOqwgCDjgIzri6TsnYwg64uo6rOE66Gc44CN66W8IOuIhOuluOuLpC4ifSwgeyJ0aXRsZSI6ICLsgqzqsbQg6rCc7JqUIMK3IOyEpOygleyEnCDsnb3quLAiLCAiZHVyIjogNSwgImJvZHkiOiAiPHA+7ZW065OgIOuPhOyEnOq0gOydgCDrj5nrhKQg7KO866+87J20IOydtOyaqe2VmOuKlCDsnpHsnYAg64+E7ISc6rSA7J2064ukLjxicj7smKTripjsnYAg7KCA7J6QIOqwleyXsOydtCDsnojslrQg7Y+J7IaM67O064ukIOuKpuydgCAyMTowMOyXkCDtj5DqtIDtlojri6QuPGJyPjIyOjEwLCDslbzqsIQg7Iuc7ISkIOuLtOuLuSDrsJXrj4TsnKTsnbQg7ISc6rOgIOy5tOyatO2EsCDrkqTsl5DshJwg7JOw65+s7KeEIOqzoCDsgqzshJzrpbwg67Cc6rKs7ZaI64ukLjxicj7sgqzshJzripQg7J2066+4IOyIqOyguCDsnojsl4jqs6AsIOqzgeyXkOuKlCDrjIDrpqzshJ0g67aB7JeU65Oc6rCAIOuWqOyWtOyguCDsnojsl4jri6QuPGJyPuqyveywsOydtCDrj4TssKntlZjquLDquYzsp4AgMzDrtoQuPGJyPuqxtOusvCDslYjsl5DripQg7IS4IOyCrOuejOydtCDsnojsl4jri6QuPGJyPu2PkOq0gCDtm4Tsl5Drj4Qg7Je0656M7Iuk7JeQ7IScIOyLnO2XmOqzteu2gOulvCDtlZjrjZgg7J6Q7JuQ67SJ7IKsIOuMgO2VmeyDnSDtlZzshozrnbwsIOyVvOqwhCDsi5zshKQg64u064u5IOuwleuPhOycpCwg6rCV7JewIOuSpCDsgqzshJzrpbwg6riw64uk66as642YIOyggOyekCDsnbTtlZjsp4QuPGJyPuydtCDspJEg7ZWcIOuqheydtCDrspTsnbjsnbTri6QuPC9wPiIsICJ0b2RvIjogIuyZvOyqvSDjgIzrgrQg7ISk7KCV7ISc44CN7JmAIOOAjOqzte2GtSDsnpDro4zjgI3rpbwg7J2964qU64ukLiDslYTsp4Eg7JWE66y06rKD64+EIOqzteqwnO2VmOyngCDslYrripTri6QuIn0sIHsidGl0bGUiOiAi7KGw7IKsIMK3IO2GoOuhoCIsICJkdXIiOiAxNSwgImxvY0Jhc2UiOiAxLCAiYm9keSI6ICI8cD7qsr3ssLDsnbQg7Jik6riwIOyghOyXkCDqsbTrrLwg7JWI7J2EIOuCmOuIoOyEnCDsgrTtjrTrs7TrqbAg7J207JW86riw66W8IOunnuy2sCDrs7TquLDroZwg7ZaI64ukLjwvcD4iLCAidG9kbyI6ICLrqLzsoIAg7ZWcIOuqheyUqSDsp6fqsowg7J6Q6riw7IaM6rCcKOuIhOq1rOyduOyngCwg7IKs7ISc7JmA7J2YIOq0gOqzhCkuIOq3uOuLpOydjCDsmKTrpbjsqr0g44CM7KGw7IKs44CN7JeQ7IScIOyepeyGjOulvCDtlZwg6rOz7JSpIOqzoOultOqzoCwg6rCB7J6QIOyGjOyngCDsoJXrs7Qg7KSRIOy1nOyGjCAx6rCc66W8IOOAjOqzteqwnOOAje2VnOuLpC4gMjE6MDAg7J207ZuEIO2WieyggeydgCDthqDroaDtlZjrqbTshJwg7J6Q7Jyg66Gt6rKMIOusu+qzoCDri7XtlZzri6QuIOqxsOynk+unkOuPhCDrkJzri6QuIn0sIHsidGl0bGUiOiAi7LaU6rCAIOyhsOyCrCDCtyDthqDroaAiLCAiZHVyIjogMTIsICJldmVudCI6IDAsICJsb2NCYXNlIjogMiwgImJvZHkiOiAiIiwgInRvZG8iOiAi64Ko7J2AIOyepeyGjOulvCDtlZwg6rOz7JSpIOuNlCDsobDsgqztlZzri6QuIOqzteqwnOuQnCDsoJXrs7TroZwg7Iuc6rCE7J2EIOunnuy2sCDrs7TsnpAuIn0sIHsidGl0bGUiOiAi7LWc7KKFIO2GoOuhoCIsICJkdXIiOiAxMCwgImV2ZW50IjogMSwgImJvZHkiOiAiIiwgInRvZG8iOiAi6rO16rCc65CcIOygleuztOyZgCDqsIHsnpDsnZgg66eQ7J20IOunnuuKlOyngCDtmZXsnbjtlZzri6QuIOy2lOqwgCDqs7XqsJzrj4Qg7J6Q7JygLiJ9LCB7InRpdGxlIjogIu2IrO2RnCIsICJkdXIiOiA1LCAidm90ZSI6IHRydWUsICJib2R5IjogIjxwPuupgOumrOyEnCDqsr3ssLDssKgg7IKs7J2066CM7J20IOuTpOumsOuLpC48L3A+IiwgInRvZG8iOiAi67KU7J246rO8IOuPmeq4sOulvCDtiKztkZztlZzri6QuIOuqqOuRkCDtiKztkZztlZjrqbQg44CM64uk7J2MIOuLqOqzhOuhnOOAjeulvCDriIzrn6wg6rKw6rO866W8IOyXsOuLpC4ifSwgeyJ0aXRsZSI6ICLqsrDrp5AiLCAiZHVyIjogMCwgImVuZGluZyI6IHRydWUsICJib2R5IjogIiIsICJ0b2RvIjogIiJ9XSwgImxvY1J1bGUiOiAi7KGw7IKsIOuLqOqzhOyXkCAx6rOzLCDstpTqsIAg7KGw7IKsIOuLqOqzhOyXkCAx6rOzIOuNlC4g7J6l7IaM64qUIOuLpOyEryDqs7Prv5DsnbTrnbwg66i87KCAIOuIhOuluCDsgqzrnozsnbQg7LCo7KeA7ZWY6rOgLCDsubTrk5zripQg6re4IOyCrOuejOydmCDjgIzshozsp4Ag7KCV67O044CN66GcIOqwkeuLiOuLpC4ifQ==";
+const CFG = {"key": "library-exp-v1", "order": ["sora", "doyun", "hajin"], "public": {"sora": {"name": "한소라", "short": "소", "color": "#4F7FC0", "room": "1층 열람실 12번 좌석", "line": "자원봉사 대학생. 폐관 후에도 열람실에서 시험공부를 하고 있었다."}, "doyun": {"name": "박도윤", "short": "도", "color": "#9A6238", "room": "지하 기계실", "line": "야간 시설관리 담당. 22:10 쓰러진 사서를 처음 발견해 신고했다."}, "hajin": {"name": "이하진", "short": "하", "color": "#8A78C2", "room": "2층 강연실", "line": "지역 작가. 오늘 저자 강연을 했고, 사서를 기다리며 남아 있었다."}}};
+const ORDER = CFG.order;
+const PUBLIC = CFG.public;
+let DATA = null;
+function D(){
+  if(!DATA){
+    const bin = atob(SECRET);
+    DATA = JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0))));
+  }
+  return DATA;
+}
+const $ = s => document.querySelector(s);
+function esc(t){ const d=document.createElement("div"); d.textContent = t == null ? "" : String(t); return d.innerHTML; }
+function chip(c){ return `<span class="chip"><i style="background:${PUBLIC[c].color}"></i>${PUBLIC[c].name}</span>`; }
+function hhmm(ms){ if(!ms) return ""; const d=new Date(ms); return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"); }
+
+/* ───── shared state ───── */
+let S = {state:{phase:0,timerEnd:null}, seats:{}, pub:{}, locs:{}, votes:{}};
+let mode = "boot";            // boot | live | local | view
+let db = null, uid = null, canWrite = null, isAdmin = false, isOwner = false;
+const UI = {lt:"sheet", rt:"seats", mt:"C", confirm:null, busy:false, as:null};
+const LKEY = CFG.key;
+function lget(){ try{ return JSON.parse(localStorage.getItem(LKEY)) || {}; }catch(e){ return {}; } }
+function lset(o){ try{ localStorage.setItem(LKEY, JSON.stringify(Object.assign(lget(), o))); }catch(e){} }
+const draft = {memo: lget().memo || "", why: "", pick: ""};
+
+function myChars(){ return uid ? ORDER.filter(c => S.seats[c] === uid) : []; }
+function myChar(){ const m = myChars(); if(!m.length) return null; return (UI.as && m.includes(UI.as)) ? UI.as : m[0]; }
+function LAST(){ return D().phases.length - 1; }
+function allow(p, k){ let v = 0; for(let i = 0; i <= p; i++){ const x = D().phases[i][k]; if(x != null) v = x; } return v; }
+function jo(name, a, b){ const c = name.charCodeAt(name.length-1) - 0xAC00; if(c < 0 || c > 11171) return b; const j = c % 28; if(j === 0) return b; if(a === "으로" && j === 8) return b; return a; }
+function phase(){ const p = Number(S.state && S.state.phase); return isFinite(p) ? Math.max(0, Math.min(LAST(), p)) : 0; }
+function itemsOf(c){
+  if(!c) return [];
+  const out = (D().sheets[c].evidence || []).map(([t,b],i) => ({id:`ev-${c}-${i}`, title:t, body:b, kind:"증거"}));
+  const all = [...D().locs, ...D().deep];
+  Object.keys(S.locs).forEach(id => { if(S.locs[id].char === c){ const l = all.find(x => x.id === id); if(l) out.push({id:`loc-${id}`, title:l.name, body:l.body, kind: D().deep.some(x=>x.id===id) ? "심층 조사" : "조사"}); } });
+  return out;
+}
+function itemById(id){
+  if(id.startsWith("ev-")){ const [, c, i] = id.split("-"); const e = D().sheets[c] && D().sheets[c].evidence[+i]; return e ? {title:e[0], body:e[1], kind:"증거"} : null; }
+  if(id.startsWith("loc-")){ const lid = id.slice(4); const l = [...D().locs, ...D().deep].find(x => x.id === lid); return l ? {title:l.name, body:l.body, kind:"조사"} : null; }
+  return null;
+}
+
+/* ───── rendering ───── */
+function setHTML(sel, html){ const el=$(sel); if(el._h !== html){ el.innerHTML = html; el._h = html; return true; } return false; }
+
+function topbar(){
+  const p = phase(), P = D().phases[p];
+  $("#phasePill").textContent = `${p} / ${LAST()} · ${P.title}`;
+  const me = myChar();
+  $("#seatDots").innerHTML = ORDER.map(c => `<span class="${S.seats[c]?"on":""} ${c===me?"me":""}" style="background:${PUBLIC[c].color}" title="${PUBLIC[c].name}${S.seats[c]?" · 참가 중":" · 비어 있음"}">${PUBLIC[c].short}</span>`).join("");
+  const mine = myChars();
+  $("#mePill").innerHTML = !me ? "관전 중" : (mine.length > 1 ? "테스트 시점: " + mine.map(c => `<button data-act="as" data-arg="${c}" style="background:${c===me?"#fff":"transparent"};color:${c===me?"var(--lake)":"inherit"};border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:0 8px;margin-left:4px;font-size:12px;font-weight:700">${PUBLIC[c].name}</button>`).join("") : `<i style="background:${PUBLIC[me].color}"></i>나: ${PUBLIC[me].name}`);
+  const m = {boot:["#f5c518","연결 중…"], live:["#4cc38a","실시간 · 방 " + ROOM], local:["#f5c518","이 기기에서만"], view:["#9aa5b8","관전 전용"]}[mode];
+  $("#modePill").innerHTML = `<i style="background:${m[0]}"></i>${m[1]}`;
+}
+
+function confirmBox(key, q, okLabel, okAct, okArg, warn){
+  if(UI.confirm !== key) return "";
+  return `<div class="confirm"><p>${q}</p><div class="row"><button class="btn ${warn?"warn":""}" data-act="${okAct}" data-arg="${okArg||""}">${okLabel}</button><button class="btn ghost" data-act="cancel">취소</button></div></div>`;
+}
+
+function sheetHTML(){
+  const me = myChar();
+  if(!me) return `<div class="notice">아직 캐릭터를 고르지 않았어요. 오른쪽 「플레이어」에서 자기 캐릭터를 고르면 여기에 설정서가 열립니다.</div>`;
+  const d = D().sheets[me], cc = PUBLIC[me].color;
+  let h = `<div class="sheet-head" style="--cc:${cc}"><span class="small">내 설정서 · 다른 사람에게 보여 주지 마세요</span><h2>${d.name}</h2><p>${d.tagline}</p></div>`;
+  d.sections.forEach(([t,b]) => { h += `<div class="sheet-sec" style="--cc:${cc}"><h3>${t}</h3>${b}</div>`; });
+  h += `<div class="sec"><h3>추리 메모</h3><p class="small">이 기기에만 저장됩니다.</p><textarea id="memo" placeholder="누가 몇 시에 어디 있었다고 말했는지 적어 두자"></textarea></div>`;
+  return h;
+}
+
+function pastHTML(){
+  const p = phase(), Ps = D().phases;
+  if(p <= 1) return `<div class="notice">아직 지나간 단계가 없어요.</div>`;
+  let h = "";
+  for(let i = 1; i < p; i++){
+    const P = Ps[i];
+    h += `<div class="phase" style="padding:14px"><span class="step-no">단계 ${i}</span><h3>${P.title}</h3>${P.event!=null?`<div class="evt"><h3>${D().events[P.event][0]}</h3>${D().events[P.event][1]}</div>`:""}${P.body?`<div class="story">${P.body}</div>`:""}</div>`;
+  }
+  return h;
+}
+
+function seatListHTML(){
+  const me = myChar();
+  return `<div class="seatlist">` + ORDER.map(c => {
+    const taken = S.seats[c], mine = c === me;
+    let right = "";
+    if(mine) right = `<button class="btn ghost sm" data-act="ask" data-arg="leave">나가기</button>`;
+    else if(taken) right = `<span class="who">참가 중</span>`;
+    else if(canJoin()) right = `<button class="btn sm" data-act="ask" data-arg="seat:${c}">이 캐릭터로 참가</button>`;
+    let x = `<div class="seatrow" style="--cc:${PUBLIC[c].color}"><div>${chip(c)}<div class="who">${PUBLIC[c].room}${mine?" · 나":""}</div></div>${right}</div>`;
+    x += confirmBox(`seat:${c}`, `<b>${PUBLIC[c].name}</b>${jo(PUBLIC[c].name,"으로","로")} 참가할까요? 설정서가 왼쪽에 열립니다. 주변 사람이 화면을 볼 수 없는지 확인하세요.${isOwner && myChars().length ? " (페이지 주인은 혼자 테스트할 수 있게 여러 캐릭터를 함께 맡을 수 있어요. 위쪽에서 시점을 바꿉니다.)" : ""}`, "참가하기", "seat", c);
+    if(mine) x += confirmBox("leave", "캐릭터에서 나갈까요? 내 조사 카드와 공개 기록은 그대로 남습니다.", "나가기", "leave", "", true);
+    return x;
+  }).join("") + `</div>`;
+}
+function canJoin(){ return (mode === "live" || mode === "local") && !!uid; }
+
+function phaseHTML(){
+  const p = phase(), P = D().phases[p], me = myChar();
+  let h = `<div class="phase"><span class="step-no">단계 ${p} / ${LAST()}</span><h2>${P.title}</h2>`;
+  if(P.event != null){ const [et, eb] = D().events[P.event]; h += `<div class="evt"><h3>${et}</h3>${eb}</div>`; }
+  if(P.body) h += `<div class="story">${P.body}</div>`;
+  if(P.todo) h += `<div class="todo"><b>이번에 할 일</b><span>${P.todo}</span></div>`;
+  if(P.dur) h += `<div class="clockrow"><span class="clock" id="clock">--:--</span><span class="grow" style="flex:1"></span>${me?`<button class="btn sm" data-act="timer">${P.dur}분 타이머 시작</button><button class="btn ghost sm" data-act="timerstop">멈춤</button>`:""}</div>`;
+  if(p === 0){
+    h += inviteHTML() + `<p class="small">참가 ${Object.keys(S.seats).length} / ${ORDER.length} · 오른쪽 「플레이어」에서도 고를 수 있어요.</p>` + seatListHTML();
+  }
+  if(P.ending) h += endingHTML();
+  // advance
+  if(me && p < LAST()){
+    const nextT = D().phases[p+1].title;
+    let q = `다음 단계 「${nextT}」로 넘어갈까요? 모두의 화면이 함께 바뀝니다.`;
+    if(p === 0 && Object.keys(S.seats).length < ORDER.length) q = `아직 ${Object.keys(S.seats).length}명만 참가했어요. 그래도 시작할까요?`;
+    if(D().phases[p+1].ending){ const n = Object.keys(S.votes).length, m = Object.keys(S.seats).length; if(n < m) q = `아직 ${m-n}명이 투표하지 않았어요. 그래도 결과를 열까요?`; else q = "모두 투표했어요. 결과를 열까요?"; }
+    h += `<div class="row"><button class="btn" data-act="ask" data-arg="next">다음 단계로 →</button>${p>0?`<button class="btn ghost sm" data-act="ask" data-arg="prev">이전 단계</button>`:""}</div>`;
+    h += confirmBox("next", q, "넘어가기", "next", "");
+    h += confirmBox("prev", "이전 단계로 되돌릴까요? 모두의 화면이 함께 바뀝니다.", "되돌리기", "prev", "", true);
+  }
+  if(!me && p > 0) h += `<p class="small">관전 중이에요. 참가하려면 오른쪽 「플레이어」에서 빈 캐릭터를 고르세요.</p>`;
+  return h + `</div>`;
+}
+
+function voteHTML(){
+  const p = phase(), me = myChar();
+  if(!D().phases[p].vote || !me) return "";
+  const mine = S.votes[me], n = Object.keys(S.votes).length, m = Object.keys(S.seats).length;
+  let h = `<div class="phase"><h3>투표</h3><p class="small">투표 현황 ${n} / ${m} · 결과는 다음 단계에서 한꺼번에 공개됩니다.</p>`;
+  if(mine) h += `<p>내 투표: ${chip(mine.suspect)} <span class="small">(다시 고르면 바뀝니다)</span></p>`;
+  const pick = draft.pick || (mine && mine.suspect) || "";
+  h += `<div class="votegrid">` + ORDER.map(c => `<button data-act="pick" data-arg="${c}" aria-pressed="${pick===c}"><i style="background:${PUBLIC[c].color}"></i>${PUBLIC[c].name}</button>`).join("") + `</div>`;
+  h += `<label class="small" for="why">동기와 근거 (한두 줄)</label><textarea id="why" style="min-height:80px" maxlength="300" placeholder="예) 돌아온 길은 ○○, 결정적 단서는 ○○, 동기는 ○○"></textarea>`;
+  h += `<div class="row"><button class="btn" data-act="vote" ${pick?"":"disabled"}>${mine?"투표 바꾸기":"투표하기"}</button></div></div>`;
+  return h;
+}
+
+function endingHTML(){
+  const Sx = D().solution, tally = {};
+  Object.values(S.votes).forEach(v => { if(PUBLIC[v.suspect]) tally[v.suspect] = (tally[v.suspect]||0) + 1; });
+  const max = Math.max(0, ...Object.values(tally));
+  const tops = Object.keys(tally).filter(c => tally[c] === max && max > 0);
+  const ok = tops.length === 1 && tops[0] === Sx.culprit;
+  let h = `<div class="tally"><h3>투표 결과</h3>`;
+  ORDER.forEach(c => { const n = tally[c]||0; h += `<div>${chip(c)} <span class="small">${n}표</span><div class="bar" style="width:${n? (n/ORDER.length*100):0}%"></div></div>`; });
+  h += `</div><div class="sec"><h3>각자의 지목</h3><ul>` + ORDER.filter(c => S.votes[c]).map(c => `<li><b>${PUBLIC[c].name}</b> → ${PUBLIC[S.votes[c].suspect] ? PUBLIC[S.votes[c].suspect].name : "?"}${S.votes[c].why?` <span class="small">「${esc(S.votes[c].why)}」</span>`:""}</li>`).join("") + `</ul></div>`;
+  h += `<div class="ending"><span class="small" style="color:inherit;opacity:.8">${ok?"엔딩 A":"엔딩 B"}</span><h3>${ok?Sx.titleA:Sx.titleB}</h3>${ok?Sx.endingA:Sx.endingB}</div>`;
+  h += `<div class="sec"><h3>진상</h3><div class="box story">${Sx.truth}</div></div>`;
+  h += `<div class="sec"><h3>추리의 길</h3><div style="display:grid;gap:16px">` + Sx.steps.map(([t,b]) => `<div class="step"><h3>${t}</h3><p>${b}</p></div>`).join("") + `</div></div>`;
+  h += `<div class="sec"><h3>단서는 늘 두 명을 가리켰다</h3><div class="box" style="overflow-x:auto"><table class="pairs"><tbody>` + Sx.pairs.map(([a,b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join("") + `</tbody></table></div></div>`;
+  h += `<div class="sec"><h3>각자의 비밀</h3><div class="box"><ul>` + Sx.secrets.map(([n,b]) => `<li><b>${n}</b> — ${b}</li>`).join("") + `</ul></div></div>`;
+  return h;
+}
+
+function feedHTML(){
+  const ev = Object.keys(S.pub).map(id => ({id, ...S.pub[id]})).filter(x => PUBLIC[x.char] && itemById(x.id)).sort((a,b) => (b.at||0)-(a.at||0));
+  let h = `<div class="sec"><h3>공개 기록</h3>`;
+  if(!ev.length) return h + `<p class="small">아직 공개된 정보가 없어요. 공개된 카드는 오른쪽 「공개 정보」에서 원문 그대로 볼 수 있습니다.</p></div>`;
+  h += `<ul class="feed">` + ev.slice(0, 12).map(x => `<li><span class="t">${hhmm(x.at)}</span><span>${PUBLIC[x.char].name}${jo(PUBLIC[x.char].name,"이","가")} 「${itemById(x.id).title}」${jo(itemById(x.id).title.replace(/\s*\(.*\)$/,""),"을","를")} 공개했다</span></li>`).join("") + `</ul>`;
+  return h + `<div class="row"><button class="btn ghost sm" data-act="rtgo" data-arg="all">공개 정보 모두 보기</button></div></div>`;
+}
+
+function rightHTML(){
+  const me = myChar(), p = phase();
+  if(UI.rt === "seats") return `<div class="sec"><h3>플레이어</h3><p class="small">한 캐릭터에 한 명. 먼저 누른 사람이 차지합니다.</p></div>` + inviteHTML() + seatListHTML() + adminHTML();
+  if(UI.rt === "mine"){
+    if(!me) return `<div class="notice">캐릭터를 고르면 내 증거와 조사 카드가 여기에 모입니다.</div>`;
+    const items = itemsOf(me);
+    let h = `<div class="sec"><h3>내 소지 정보</h3><p class="small">처음엔 모두 비공개. 「공개하기」를 누르면 모두의 화면에 원문 그대로 뜨고, 되돌릴 수 없습니다. 공개된 카드는 진짜로 인정됩니다.</p></div>`;
+    if(!items.length) h += `<div class="notice">아직 가진 카드가 없어요. 조사 단계에서 「조사」를 골라 보세요.</div>`;
+    items.forEach(it => {
+      const pubd = !!S.pub[it.id];
+      h += `<div class="card mine ${pubd?"pub":""}" style="--cc:${PUBLIC[me].color}"><div class="card-top"><div><span class="tagline">${it.kind}</span><h3>${it.title}</h3></div><span class="state ${pubd?"pubd":"priv"}">${pubd?"공개됨":"비공개"}</span></div>${it.body}`;
+      if(!pubd) h += `<div class="row"><button class="btn ghost sm" data-act="ask" data-arg="pub:${it.id}">공개하기</button></div>` + confirmBox(`pub:${it.id}`, `「${it.title}」${jo(it.title.replace(/\s*\(.*\)$/,""),"을","를")} 모두에게 공개할까요? 되돌릴 수 없습니다.`, "공개", "pub", it.id);
+      h += `</div>`;
+    });
+    return h;
+  }
+  if(UI.rt === "all"){
+    let h = `<div class="sec"><h3>공개된 정보</h3><p class="small">누군가 공개한 카드입니다. 원문 그대로라 누구도 부정할 수 없습니다.</p></div>`;
+    let any = false;
+    ORDER.forEach(c => {
+      const list = Object.keys(S.pub).filter(id => S.pub[id].char === c && itemById(id)).sort((a,b) => (S.pub[a].at||0)-(S.pub[b].at||0));
+      if(!list.length) return; any = true;
+      h += `<div class="sec">${chip(c)}`;
+      list.forEach(id => { const it = itemById(id); h += `<div class="card pub"><div class="card-top"><div><span class="tagline">${it.kind} · ${hhmm(S.pub[id].at)} 공개</span><h3>${it.title}</h3></div></div>${it.body}</div>`; });
+      h += `</div>`;
+    });
+    if(!any) h += `<div class="notice">아직 아무도 공개하지 않았어요.</div>`;
+    return h;
+  }
+  // locs
+  const baseMax = allow(p, "locBase"), deepMax = allow(p, "locDeep");
+  const myBase = me ? D().locs.filter(l => S.locs[l.id] && S.locs[l.id].char === me).length : 0;
+  const myDeep = me ? D().deep.filter(l => S.locs[l.id] && S.locs[l.id].char === me).length : 0;
+  let h = `<div class="sec"><h3>조사 장소</h3><p class="small">${D().locRule}</p>`;
+  if(me) h += `<div class="box row" style="justify-content:space-between"><span>내 조사 <b>${myBase}</b> / ${baseMax}</span>${D().deep.length ? `<span>심층 <b>${myDeep}</b> / ${deepMax}</span>` : ""}</div>`;
+  h += `</div>`;
+  const row = (l, deep) => {
+    const own = S.locs[l.id];
+    let right = "", why = "";
+    if(own) right = own.char === me ? `<span class="state pubd">내 카드</span>` : chip(own.char);
+    else if(me){
+      if(deep && deepMax === 0) why = "심층 조사 단계에서 열립니다";
+      else if(!deep && baseMax === 0) why = "조사 단계에서 열립니다";
+      else if(!deep && myBase >= baseMax) why = "이번 단계 몫을 이미 썼어요";
+      else if(deep && myDeep >= deepMax) why = "심층 조사 몫을 이미 썼어요";
+      else if(deep && S.locs[l.parent] && S.locs[l.parent].char === me) why = "직접 조사한 장소의 심층은 고를 수 없어요";
+      right = why ? `<span class="small">${why}</span>` : `<button class="btn ghost sm" data-act="ask" data-arg="loc:${l.id}">조사하기</button>`;
+    }
+    return `<div class="loc"><span class="nm">${l.name}</span><span>${right}</span>${l.hint?`<span class="ht">${l.hint}</span>`:""}${confirmBox(`loc:${l.id}`, `「${l.name}」${jo(l.name.replace(/\s*\(.*\)$/,""),"을","를")} 조사할까요?`, "조사하기", "loc", l.id)}</div>`;
+  };
+  h += `<div class="sec"><h3 style="font-size:19px">일반 조사</h3>${D().locs.map(l => row(l,false)).join("")}</div>`;
+  if(D().deep.length) h += `<div class="sec"><h3 style="font-size:19px">심층 조사</h3>${D().deep.map(l => row(l,true)).join("")}</div>`;
+  return h;
+}
+
+function adminHTML(){
+  if(!isAdmin && mode !== "local") return "";
+  return `<div class="sec"><h3 style="font-size:19px">게임 관리</h3><p class="small">새 판을 시작할 때만 쓰세요. 참가, 조사, 공개, 투표 기록이 모두 지워집니다.</p><div class="row"><button class="btn ghost sm" data-act="ask" data-arg="reset">처음부터 다시</button><button class="btn ghost sm" data-act="newroom">새 방 만들기</button></div>${confirmBox("reset", "정말 모든 기록을 지울까요? 되돌릴 수 없습니다.", "모두 지우기", "reset", "", true)}</div>`;
+}
+
+function render(){
+  topbar();
+  if(setHTML("#L-sheet", sheetHTML())){ const m = $("#memo"); if(m) m.value = draft.memo; }
+  setHTML("#L-past", pastHTML());
+  ["sheet","common","past"].forEach(k => { $("#L-"+k).hidden = UI.lt !== k; });
+  document.querySelectorAll('[data-act="lt"]').forEach(b => b.setAttribute("aria-selected", b.dataset.arg === UI.lt));
+  document.querySelectorAll('[data-act="rt"]').forEach(b => b.setAttribute("aria-selected", b.dataset.arg === UI.rt));
+  document.querySelectorAll('[data-act="mt"]').forEach(b => b.setAttribute("aria-selected", b.dataset.arg === UI.mt));
+  let note = "";
+  if(mode === "local") note = `<div class="notice">${netFail ? "Firebase에 연결하지 못해" : "Firebase 설정(firebase-config.js)이 비어 있어"} 이 기기에서만 동작합니다. 다른 사람과 함께하려면 README의 설치 순서를 확인하세요.</div>`;
+  if(mode === "view") note = `<div class="notice">지금은 기록 권한이 없어 관전만 가능해요. Firestore 규칙(firestore.rules)이 게시됐는지 확인하세요.</div>`;
+  setHTML("#C-phase", note + phaseHTML());
+  if(setHTML("#C-vote", voteHTML())){ const w = $("#why"); if(w) w.value = draft.why; }
+  setHTML("#C-feed", feedHTML());
+  setHTML("#R-body", rightHTML());
+  $("#board").dataset.mt = UI.mt;
+  tick();
+}
+function tick(){
+  const el = $("#clock"); if(!el) return;
+  const end = S.state && S.state.timerEnd;
+  if(!end){ el.textContent = "--:--"; return; }
+  const s = Math.max(0, Math.round((end - Date.now())/1000));
+  el.textContent = String(Math.floor(s/60)).padStart(2,"0") + ":" + String(s%60).padStart(2,"0");
+}
+setInterval(tick, 1000);
+
+let toastT = null;
+function toast(msg){ const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 3200); }
+
+/* ───── actions ───── */
+function saveLocal(){ if(mode === "local") lset({S}); }
+async function claimDoc(path, body){ await db.claim(path, body); }
+const A = {
+  async seat(c){
+    if(!PUBLIC[c]) return;
+    if(S.seats[c] && S.seats[c] !== uid) throw {code:"taken"};
+    const old = isOwner ? null : myChar();
+    if(mode === "local"){ if(old) delete S.seats[old]; S.seats[c] = uid; saveLocal(); }
+    else { if(old) await db.doc("seats/"+old).delete(); await claimDoc("seats/"+c, {uid, at: Date.now()}); }
+    UI.as = c;
+    UI.lt = "sheet"; UI.rt = "mine";
+  },
+  async leave(){
+    const me = myChar(); if(!me) return;
+    if(mode === "local"){ delete S.seats[me]; return saveLocal(); }
+    await db.doc("seats/"+me).delete();
+  },
+  async loc(id){
+    const me = myChar(); if(!me) return;
+    if(S.locs[id]) throw {code:"taken"};
+    if(mode === "local"){ S.locs[id] = {char: me, uid, at: Date.now()}; saveLocal(); }
+    else await claimDoc("locs/"+id, {char: me, uid, at: Date.now()});
+    UI.rt = "mine";
+  },
+  async pub(id){
+    const me = myChar(); if(!me) return;
+    if(!itemsOf(me).some(x => x.id === id)) return;
+    if(mode === "local"){ S.pub[id] = {char: me, at: Date.now()}; return saveLocal(); }
+    await db.doc("pub/"+id).set({char: me, uid, at: Date.now()});
+  },
+  async setPhase(p){
+    p = Math.max(0, Math.min(7, p));
+    if(mode === "local"){ S.state = {phase: p, timerEnd: null}; return saveLocal(); }
+    await db.doc("game/state").set({phase: p, timerEnd: null});
+  },
+  async timer(on){
+    const p = phase(), dur = D().phases[p].dur || 0;
+    const st = {phase: p, timerEnd: on ? Date.now() + dur*60000 : null};
+    if(mode === "local"){ S.state = st; return saveLocal(); }
+    await db.doc("game/state").set(st);
+  },
+  async vote(){
+    const me = myChar(); const pick = draft.pick || (S.votes[me] && S.votes[me].suspect);
+    if(!me || !PUBLIC[pick]) return;
+    const v = {suspect: pick, why: String(draft.why || "").slice(0, 300), uid, at: Date.now()};
+    if(mode === "local"){ S.votes[me] = v; return saveLocal(); }
+    await db.doc("votes/"+me).set(v);
+    toast("투표했어요");
+  },
+  async reset(){
+    if(mode === "local"){ S = {state:{phase:0,timerEnd:null}, seats:{}, pub:{}, locs:{}, votes:{}}; return saveLocal(); }
+    const jobs = [["game","state"]];
+    ORDER.forEach(c => { jobs.push(["seats",c]); jobs.push(["votes",c]); });
+    Object.keys(S.pub).forEach(id => jobs.push(["pub",id]));
+    [...D().locs, ...D().deep].forEach(l => jobs.push(["locs",l.id]));
+    for(const [c,id] of jobs){ try{ await db.doc(c+"/"+id).delete(); }catch(e){} }
+  }
+};
+async function run(fn){
+  if(UI.busy) return;
+  UI.busy = true;
+  try{ await fn(); UI.confirm = null; }
+  catch(e){
+    const code = e && e.code;
+    if(code === "taken") toast("이미 다른 사람이 가져갔어요");
+    else if(code === "busy") toast("다른 사람이 막 고르는 중이에요. 잠시 뒤 다시 눌러 주세요");
+    else if(code === "invalid_argument" || code === "permission-denied"){ mode = "view"; toast("이 계정은 기록할 권한이 없어 관전 모드로 바뀌었어요"); }
+    else if(code === "quota_exceeded") toast("저장 공간이 가득 찼어요. 「처음부터 다시」로 정리해 주세요");
+    else toast("잠시 연결이 불안정해요. 다시 눌러 주세요");
+    UI.confirm = null;
+  }
+  UI.busy = false;
+  render();
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if(!b) return;
+  const act = b.dataset.act, arg = b.dataset.arg;
+  switch(act){
+    case "lt": UI.lt = arg; return render();
+    case "rt": UI.rt = arg; return render();
+    case "rtgo": UI.rt = arg; UI.mt = "R"; return render();
+    case "mt": UI.mt = arg; return render();
+    case "ask": UI.confirm = arg; return render();
+    case "cancel": UI.confirm = null; return render();
+    case "pick": draft.pick = arg; return render();
+    case "as": UI.as = arg; draft.pick = ""; return render();
+    case "seat": return run(() => A.seat(arg));
+    case "leave": return run(() => A.leave());
+    case "loc": return run(() => A.loc(arg));
+    case "pub": return run(() => A.pub(arg));
+    case "next": return run(() => A.setPhase(phase() + 1));
+    case "prev": return run(() => A.setPhase(phase() - 1));
+    case "timer": return run(() => A.timer(true));
+    case "timerstop": return run(() => A.timer(false));
+    case "vote": return run(() => A.vote());
+    case "reset": return run(() => A.reset());
+    case "copy": return copyInvite();
+    case "newroom": location.hash = randCode(); return;
+  }
+});
+document.addEventListener("input", e => {
+  if(e.target.id === "memo"){ draft.memo = e.target.value; lset({memo: draft.memo}); }
+  if(e.target.id === "why"){ draft.why = e.target.value; }
+});
+
+/* ───── connect (web · Firebase) ───── */
+const FB_VER = "10.12.2";
+let ROOM = "", netFail = false;
+function randCode(){ const a = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let s = ""; for(let i = 0; i < 5; i++) s += a[Math.floor(Math.random()*a.length)]; return s; }
+function getUid(){
+  const q = new URLSearchParams(location.search).get("u");
+  if(q) return "u_" + q.replace(/[^A-Za-z0-9]/g, "").slice(0, 20);
+  let id = null;
+  try{ id = localStorage.getItem("mm-uid"); }catch(e){}
+  if(!id){ id = "u_" + Math.random().toString(36).slice(2, 12) + Date.now().toString(36); try{ localStorage.setItem("mm-uid", id); }catch(e){} }
+  return id;
+}
+function inviteURL(){ return location.origin + location.pathname + "#" + ROOM; }
+function inviteHTML(){
+  if(mode !== "live") return "";
+  return `<div class="box" style="display:grid;gap:8px"><b>초대 링크 · 방 ${ROOM}</b><input class="invite" readonly value="${esc(inviteURL())}" style="width:100%;font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--paper2);color:var(--ink)"><div class="row"><button class="btn sm" data-act="copy">링크 복사</button><span class="small">이 링크를 받은 사람은 같은 방에 들어옵니다.</span></div></div>`;
+}
+function copyInvite(){
+  const fallback = () => { const i = document.querySelector(".invite"); if(i){ i.focus(); i.select(); } toast("주소가 선택됐어요. 복사해서 보내 주세요"); };
+  try{ navigator.clipboard.writeText(inviteURL()).then(() => toast("초대 링크를 복사했어요"), fallback); }catch(e){ fallback(); }
+}
+function startLocal(){
+  mode = "local"; uid = "local"; isAdmin = true; isOwner = true;
+  const saved = lget().S; if(saved && saved.state) S = saved;
+  render();
+}
+function onErr(e){
+  if(e && e.code === "permission-denied"){ mode = "view"; render(); return; }
+  toast("연결이 불안정해요. 잠시 뒤에도 그대로면 새로고침해 주세요");
+}
+async function connect(){
+  ROOM = (location.hash.slice(1) || "").replace(/[^A-Za-z0-9]/g, "").toUpperCase().slice(0, 12);
+  if(!ROOM){ ROOM = randCode(); history.replaceState(null, "", location.pathname + location.search + "#" + ROOM); }
+  window.addEventListener("hashchange", () => location.reload());
+  let cfg = null;
+  try{ cfg = (await import("./firebase-config.js")).FB_CONFIG; }catch(e){}
+  if(!cfg || !cfg.projectId || /YOUR|여기/.test(cfg.projectId)) return startLocal();
+  let A, F;
+  try{
+    A = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-app.js`);
+    F = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-firestore.js`);
+  }catch(e){ netFail = true; return startLocal(); }
+  const fs = F.getFirestore(A.initializeApp(cfg));
+  const base = "rooms/" + ROOM + "/";
+  const wrapDoc = s => ({exists: s.exists(), data: () => s.data()});
+  db = {
+    doc(p){ const r = F.doc(fs, base + p); return {
+      get: async () => wrapDoc(await F.getDoc(r)),
+      set: d => F.setDoc(r, d),
+      delete: () => F.deleteDoc(r),
+      onSnapshot: (next, err) => F.onSnapshot(r, s => next(wrapDoc(s)), err)
+    }; },
+    collection(p){ const r = F.collection(fs, base + p); return {
+      onSnapshot: (next, err) => F.onSnapshot(r, q => next({docs: q.docs.map(d => ({id: d.id, data: () => d.data()}))}), err)
+    }; },
+    claim(p, body){ const r = F.doc(fs, base + p); return F.runTransaction(fs, async tx => {
+      const s = await tx.get(r); const d = s.exists() ? s.data() : null;
+      if(d && d.uid && d.uid !== uid) throw {code: "taken"};
+      tx.set(r, body);
+    }); }
+  };
+  uid = getUid(); canWrite = true; mode = "live";
+  try{ await F.runTransaction(fs, async tx => { const r = F.doc(fs, base + "meta/info"); const s = await tx.get(r); if(!s.exists()) tx.set(r, {owner: uid, at: Date.now()}); }); }catch(e){}
+  db.doc("meta/info").onSnapshot(s => { const d = s.exists ? s.data() : null; isOwner = !!(d && d.owner === uid); isAdmin = isOwner; render(); }, onErr);
+  db.doc("game/state").onSnapshot(s => { S.state = s.exists ? s.data() : {phase:0, timerEnd:null}; render(); }, onErr);
+  const coll = (name, key, keep, map) => db.collection(name).onSnapshot(q => {
+    const o = {}; q.docs.forEach(d => { const x = d.data(); if(x && keep(d.id, x)) o[d.id] = map ? map(x) : x; });
+    S[key] = o; render();
+  }, onErr);
+  coll("seats", "seats", (id, x) => PUBLIC[id] && typeof x.uid === "string", x => x.uid);
+  coll("pub", "pub", (id, x) => PUBLIC[x.char] && !!itemById(id));
+  coll("locs", "locs", (id, x) => PUBLIC[x.char]);
+  coll("votes", "votes", (id, x) => PUBLIC[id] && PUBLIC[x.suspect]);
+  render();
+}
+render();
+connect();
+</script>
+</body></html>
