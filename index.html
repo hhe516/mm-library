@@ -293,6 +293,92 @@ body{display:flex;flex-direction:column;overflow:hidden}
 .tally .bar{height:10px;border-radius:5px;background:var(--pink)}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-size:14px;z-index:60;max-width:calc(100% - 32px)}
 .small-btns{display:flex;flex-wrap:wrap;gap:6px}
+/* ── 세 칸 구분 ── */
+@media (min-width: 901px){
+  .board{gap:10px;padding:10px;background:#cfd6df}
+  .col{border:0;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(20,30,50,.12)}
+  #colL{--colbg:#FBF6EC;--colac:#B7791F}
+  #colC{--colbg:#EAF0F6;--colac:var(--lake)}
+  #colR{--colbg:#F3F0FA;--colac:#6B5BB5}
+  .col .col-body{background:var(--colbg)}
+  .col .col-tabs{background:var(--paper);border-bottom:0;box-shadow:inset 0 -2px 0 color-mix(in srgb,var(--colac) 25%,transparent);border-top:5px solid var(--colac)}
+  .col .col-tabs button[aria-selected="true"],.col .col-tabs .lbl{border-bottom-color:var(--colac);color:var(--colac)}
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .board{background:#0b0f16}
+  :root:not([data-theme="light"]) #colL{--colbg:#1c1a16} :root:not([data-theme="light"]) #colC{--colbg:#151c27} :root:not([data-theme="light"]) #colR{--colbg:#1b1824}
+}
+/* ── 진행 칸 압축 ── */
+.phase.compact{padding:14px 16px;gap:10px}
+.phase.compact .ph-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.phase.compact .ph-top h2{font-size:22px;line-height:1.2;flex:1 1 auto;margin:0}
+.phase.compact .step-no{font-size:12px}
+.minclock{display:inline-flex;align-items:center;gap:6px;background:var(--lake);color:var(--lake-ink);border-radius:999px;padding:4px 6px 4px 12px}
+.minclock .clock{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.minclock button{border:0;background:rgba(255,255,255,.18);color:inherit;border-radius:999px;width:28px;height:28px;font-size:12px;cursor:pointer}
+.minclock button:hover{background:rgba(255,255,255,.3)}
+.phase.compact .todo{padding:9px 12px;font-size:14.5px}
+.phase.compact details.story-more summary{cursor:pointer;font-size:13px;color:var(--muted)}
+.phase.compact details.story-more[open] summary{margin-bottom:6px}
+.phase.compact .row{gap:8px}
+/* ── 조사 테이블 ── */
+.table-wrap{background:radial-gradient(ellipse at top,#3c6b54 0%,#2b4f3e 70%);color:#f3f6f1;border-radius:14px;padding:14px 14px 12px;display:grid;gap:10px;box-shadow:inset 0 0 0 2px rgba(0,0,0,.15)}
+.table-top{display:flex;align-items:center;justify-content:space-between}
+.table-top h3{font-size:18px;margin:0;color:#fff}
+.tok{background:rgba(255,255,255,.14);border-radius:999px;padding:3px 12px;font-size:13.5px}
+.tok b{font-size:16px}
+.table-wrap .turns{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.table-wrap .arr{opacity:.45;font-size:12px}
+.table-wrap .tchip{font-size:12.5px;padding:2px 9px;border-radius:999px;background:rgba(255,255,255,.1);color:#e6efe8;border:1px solid rgba(255,255,255,.18)}
+.table-wrap .tchip.done{opacity:.35;text-decoration:line-through}
+.table-wrap .tchip.now{background:#fff;color:#1d2a22;font-weight:700;box-shadow:0 0 0 3px var(--cc)}
+.turn-now{margin:0;font-size:14.5px}
+.turn-now.mine{color:#ffe08a}
+.decks{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px 6px}
+.deck{all:unset;cursor:pointer;display:grid;justify-items:center;gap:3px;padding:6px 4px 8px;border-radius:12px;text-align:center;transition:background .15s}
+.deck:hover,.deck:focus-visible{background:rgba(255,255,255,.08)}
+.deck:focus-visible{outline:2px solid #ffe08a}
+.pile{position:relative;width:58px;height:78px;margin-bottom:4px}
+.pile i{position:absolute;inset:0;border-radius:8px;background:repeating-linear-gradient(45deg,#8a2f45 0 6px,#a33d55 6px 12px);border:3px solid #f6efe3;box-shadow:0 2px 4px rgba(0,0,0,.35);transform:translate(calc(var(--i) * -2px), calc(var(--i) * -2px)) rotate(calc(var(--i) * 1.5deg - 2deg))}
+.pile i.ghost{background:none;border:2px dashed rgba(255,255,255,.3);box-shadow:none}
+.pile .cnt{position:absolute;right:-8px;bottom:-6px;background:#fff;color:#1d2a22;font-weight:800;font-size:13px;border-radius:999px;min-width:24px;height:24px;display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,.35)}
+.deck.hot .pile i:last-of-type{animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translate(-6px,-6px) rotate(2.5deg)}50%{transform:translate(-6px,-11px) rotate(2.5deg)}}
+.deck.empty{opacity:.55}
+.dname{font-weight:700;font-size:13.5px;line-height:1.25;word-break:keep-all}
+.dhint{font-size:11px;opacity:.7;line-height:1.3;word-break:keep-all}
+.takenlog{font-size:13px}
+.takenlog summary{cursor:pointer;opacity:.85}
+.takenlog ul{margin:6px 0 0;padding-left:4px;list-style:none;display:grid;gap:3px}
+.takenlog .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.takenlog .small,.table-wrap .rule{color:rgba(243,246,241,.7)}
+.table-wrap .rule{margin:0;font-size:12px;line-height:1.5}
+/* ── 뭉치 펼치기 ── */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(15,20,28,.55);display:grid;place-items:center;padding:16px;animation:fade .15s ease-out}
+@keyframes fade{from{opacity:0}}
+.sheetbox{background:var(--paper);color:var(--ink);border-radius:16px;width:min(620px,100%);max-height:calc(100vh - 32px);overflow:auto;padding:18px;display:grid;gap:12px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.mtop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.mtop h3{margin:0;font-size:20px}
+.spread{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;padding:6px 2px 4px}
+.fcard{position:relative;cursor:pointer;aspect-ratio:3/4;border-radius:10px;border:3px solid #f6efe3;background:none;padding:0;box-shadow:0 3px 8px rgba(0,0,0,.25);transform:rotate(var(--r));transition:transform .15s,box-shadow .15s;overflow:hidden;font:inherit;color:#fff}
+.fcard .back{position:absolute;inset:0;background:repeating-linear-gradient(45deg,#8a2f45 0 6px,#a33d55 6px 12px)}
+.fcard .ttl{position:absolute;left:8px;right:8px;top:50%;transform:translateY(-50%);background:rgba(255,253,248,.95);color:#2a2320;border-radius:6px;padding:8px 6px;font-weight:700;font-size:14px;line-height:1.3;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.fcard:not([disabled]):hover{transform:rotate(0) translateY(-6px);box-shadow:0 10px 18px rgba(0,0,0,.3)}
+.fcard.sel{transform:rotate(0) translateY(-8px);box-shadow:0 0 0 4px #ffcf4a,0 10px 18px rgba(0,0,0,.3)}
+.fcard[disabled]{cursor:default}
+.fcard.gone{filter:grayscale(.85);opacity:.55}
+.fcard .who{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);background:var(--cc);color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;white-space:nowrap}
+/* ── 뒤집기 ── */
+.flipwrap{perspective:1200px;width:min(420px,100%)}
+.flipcard{position:relative;transform-style:preserve-3d;animation:flip .7s cubic-bezier(.3,.7,.3,1) forwards;min-height:300px}
+@keyframes flip{0%{transform:rotateY(0) scale(.85)}60%{transform:rotateY(190deg) scale(1.03)}100%{transform:rotateY(180deg) scale(1)}}
+.flipcard .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;border:4px solid #f6efe3;overflow:hidden}
+.flipcard .front .back{position:absolute;inset:0;background:repeating-linear-gradient(45deg,#8a2f45 0 8px,#a33d55 8px 16px)}
+.flipcard .backside{position:relative;transform:rotateY(180deg);background:var(--paper);color:var(--ink);padding:18px;display:grid;gap:8px;align-content:start;box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.flipcard .backside h3{margin:0;font-size:21px}
+.flipcard .fbody{font-size:15px;line-height:1.65}
+@media (prefers-reduced-motion: reduce){.flipcard{animation:none;transform:rotateY(180deg)}.deck.hot .pile i:last-of-type{animation:none}}
+@media (max-width: 900px){.decks{grid-template-columns:repeat(3,minmax(0,1fr))}.pile{width:50px;height:68px}.spread{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.fcard .ttl{font-size:12.5px;padding:6px 4px;left:5px;right:5px}.sheetbox{padding:14px}}
 </style>
 
 <header class="topbar">
@@ -412,7 +498,7 @@ function hhmm(ms){ if(!ms) return ""; const d=new Date(ms); return String(d.getH
 let S = {state:{phase:0,timerEnd:null}, seats:{}, pub:{}, locs:{}, votes:{}, reveals:{}};
 let mode = "boot";            // boot | live | local | view
 let db = null, uid = null, canWrite = null, isAdmin = false, isOwner = false;
-const UI = {lt:"sheet", rt:"seats", mt:"C", confirm:null, busy:false, as:null};
+const UI = {lt:"sheet", rt:"seats", mt:"C", confirm:null, busy:false, as:null, deck:null, pickc:null, flip:null};
 const LKEY = CFG.key;
 function lget(){ try{ return JSON.parse(localStorage.getItem(LKEY)) || {}; }catch(e){ return {}; } }
 function lset(o){ try{ localStorage.setItem(LKEY, JSON.stringify(Object.assign(lget(), o))); }catch(e){} }
@@ -511,11 +597,11 @@ function canJoin(){ return (mode === "live" || mode === "local") && !!uid; }
 
 function phaseHTML(){
   const p = phase(), P = D().phases[p], me = myChar();
-  let h = `<div class="phase"><span class="step-no">단계 ${p} / ${LAST()}</span><h2>${P.title}</h2>`;
+  const clk = P.dur ? `<span class="minclock" title="${P.dur}분 타이머"><span class="clock" id="clock">--:--</span>${me ? `<button data-act="timer" aria-label="${P.dur}분 타이머 시작" title="${P.dur}분 타이머 시작">▶</button><button data-act="timerstop" aria-label="타이머 멈춤" title="멈춤">■</button>` : ""}</span>` : "";
+  let h = `<div class="phase compact"><div class="ph-top"><div style="flex:1 1 auto;min-width:0"><span class="step-no">단계 ${p} / ${LAST()}</span><h2>${P.title}</h2></div>${clk}</div>`;
   if(P.event != null){ const [et, eb] = D().events[P.event]; h += `<div class="evt"><h3>${et}</h3>${eb}</div>`; }
-  if(P.body) h += `<div class="story">${P.body}</div>`;
+  if(P.body) h += (p <= 1 || P.ending) ? `<div class="story">${P.body}</div>` : `<details class="story-more"><summary>상황 보기</summary><div class="story">${P.body}</div></details>`;
   if(P.todo) h += `<div class="todo"><b>이번에 할 일</b><span>${P.todo}</span></div>`;
-  if(P.dur) h += `<div class="clockrow"><span class="clock" id="clock">--:--</span><span class="grow" style="flex:1"></span>${me?`<button class="btn sm" data-act="timer">${P.dur}분 타이머 시작</button><button class="btn ghost sm" data-act="timerstop">멈춤</button>`:""}</div>`;
   if(p === 0){
     h += inviteHTML() + `<p class="small">참가 ${Object.keys(S.seats).length} / ${ORDER.length} · 오른쪽 「플레이어」에서도 고를 수 있어요.</p>` + seatListHTML();
   }
@@ -526,7 +612,7 @@ function phaseHTML(){
     let q = `다음 단계 「${nextT}」로 넘어갈까요? 모두의 화면이 함께 바뀝니다.`;
     if(p === 0 && Object.keys(S.seats).length < ORDER.length) q = `아직 ${Object.keys(S.seats).length}명만 참가했어요. 그래도 시작할까요?`;
     if(D().phases[p+1].ending){ const n = Object.keys(S.votes).length, m = Object.keys(S.seats).length; if(n < m) q = `아직 ${m-n}명이 투표하지 않았어요. 그래도 결과를 열까요?`; else q = "모두 투표했어요. 결과를 열까요?"; }
-    h += `<div class="row"><button class="btn" data-act="ask" data-arg="next">다음 단계로 →</button>${p>0?`<button class="btn ghost sm" data-act="ask" data-arg="prev">이전 단계</button>`:""}</div>`;
+    h += `<div class="row"><button class="btn sm" data-act="ask" data-arg="next">다음 단계로 →</button>${p>0?`<button class="btn ghost sm" data-act="ask" data-arg="prev">이전 단계</button>`:""}</div>`;
     h += confirmBox("next", q, "넘어가기", "next", "");
     h += confirmBox("prev", "이전 단계로 되돌릴까요? 모두의 화면이 함께 바뀝니다.", "되돌리기", "prev", "", true);
   }
@@ -641,30 +727,50 @@ function searchHTML(){
   const p = phase(), P = D().phases[p];
   if(!allow(p, "tokens") || P.vote || P.ending) return "";
   const me = myChar(), left = me ? tokensLeft(me) : 0;
-  let h = `<div class="phase"><div class="card-top"><h3>조사</h3>${me ? `<span class="state ${left > 0 ? "pubd" : "priv"}">내 토큰 ${left}개</span>` : ""}</div><p class="small">${D().locRule}</p>`;
-  const seq = turnSeq(p), k = picksIn(p), cur = whoseTurn();
+  const seq = turnSeq(p), k = picksIn(p), cur = whoseTurn(), myTurn = !!me && cur === me;
+  let h = `<div class="table-wrap"><div class="table-top"><h3>조사 테이블</h3>${me ? `<span class="tok">내 토큰 <b>${left}</b></span>` : ""}</div>`;
   if(seq.length){
-    h += `<div class="turns"><span class="small">가져가는 순서</span>` + seq.map((c,i) => `<span class="tchip ${i < k ? "done" : i === k ? "now" : ""}">${PUBLIC[c] ? PUBLIC[c].name : c}</span>`).join("") + `</div>`;
-    h += cur ? `<p class="turn-now">${cur === me ? "<b>내 차례</b>예요. 카드 1장을 골라 가져오세요." : `지금은 <b>${PUBLIC[cur].name}</b> 차례예요.`}</p>` : `<p class="small">이번 단계 조사는 끝났어요.</p>`;
+    h += `<div class="turns">` + seq.map((c,i) => `<span class="tchip ${i < k ? "done" : i === k ? "now" : ""}" style="--cc:${PUBLIC[c] ? PUBLIC[c].color : "#888"}">${PUBLIC[c] ? PUBLIC[c].name : c}</span>`).join(`<span class="arr">›</span>`) + `</div>`;
+    h += cur ? `<p class="turn-now ${myTurn ? "mine" : ""}">${myTurn ? "<b>내 차례!</b> 카드 뭉치를 눌러 한 장 고르세요." : `지금은 <b>${PUBLIC[cur].name}</b> 차례예요. 뭉치를 눌러 어떤 카드가 남았는지 볼 수는 있어요.`}</p>` : `<p class="turn-now">이번 단계 조사는 끝났어요.</p>`;
   }
-  const myTurn = !!me && cur === me;
+  h += `<div class="decks">`;
   D().locs.forEach(l => {
     const remain = l.cards.filter(c => !S.locs[c.id]).length;
-    h += `<div class="loc"><span class="nm">${l.name} <span class="small">· 남은 카드 ${remain}/${l.cards.length}</span></span><span></span>${l.hint ? `<span class="ht">${l.hint}</span>` : ""}<div class="clist">`;
-    l.cards.forEach(c => {
-      const t = S.locs[c.id];
-      let right;
-      if(t) right = `<span class="small">→ ${PUBLIC[t.drawer || t.char] ? PUBLIC[t.drawer || t.char].name : "?"}</span>`;
-      else if(!me) right = "";
-      else if(left <= 0) right = `<span class="small">토큰 없음</span>`;
-      else if(!myTurn) right = `<span class="small">대기</span>`;
-      else right = `<button class="btn ghost sm" data-act="ask" data-arg="draw:${c.id}">가져오기 · 토큰 1</button>`;
-      h += `<div class="crow ${t ? "gone" : ""}"><span class="ct">${c.title}</span>${right}</div>`;
-      if(!t && myTurn && left > 0) h += confirmBox(`draw:${c.id}`, `「${l.name.replace(/\s*\(.*\)$/, "")}」의 「${c.title}」${jo(c.title, "을", "를")} 조사할까요? 토큰 1개를 씁니다.`, "조사하기", "draw", c.id);
-    });
-    h += `</div></div>`;
+    const layers = Math.min(remain, 4);
+    h += `<button class="deck ${remain ? "" : "empty"} ${myTurn && remain ? "hot" : ""}" data-act="deck" data-arg="${l.id}" aria-label="${l.name} 카드 뭉치 · 남은 카드 ${remain}장">`
+       + `<span class="pile">` + Array.from({length: Math.max(layers, 1)}, (_, i) => `<i style="--i:${i}" class="${remain ? "" : "ghost"}"></i>`).join("") + `<span class="cnt">${remain}</span></span>`
+       + `<span class="dname">${l.name}</span><span class="dhint">${l.hint || ""}</span></button>`;
   });
-  return h + `</div>`;
+  h += `</div>`;
+  const taken = allCards().filter(c => S.locs[c.id]).sort((a,b) => (S.locs[a.id].at||0) - (S.locs[b.id].at||0));
+  if(taken.length) h += `<details class="takenlog"><summary>가져간 카드 ${taken.length}장 보기</summary><ul>` + taken.map(c => { const w = S.locs[c.id].drawer || S.locs[c.id].char; return `<li><span class="dot" style="background:${PUBLIC[w] ? PUBLIC[w].color : "#999"}"></span>${PUBLIC[w] ? PUBLIC[w].name : "?"} ← 「${c.title}」 <span class="small">${c.loc.name.replace(/\s*\(.*\)$/, "")}</span></li>`; }).join("") + `</ul></details>`;
+  h += `<p class="small rule">${D().locRule}</p></div>`;
+  return h + deckModalHTML(me, left, myTurn) + flipHTML();
+}
+function deckModalHTML(me, left, myTurn){
+  if(!UI.deck) return "";
+  const l = D().locs.find(x => x.id === UI.deck); if(!l) return "";
+  let h = `<div class="modal" data-act="deckclose" data-arg="bg"><div class="sheetbox" role="dialog" aria-label="${l.name}"><div class="mtop"><div><h3>${l.name}</h3><span class="small">${l.hint || ""}</span></div><button class="btn ghost sm" data-act="deckclose">닫기</button></div>`;
+  h += `<p class="small">${myTurn && left > 0 ? "가져올 카드를 고르세요. 토큰 1개를 씁니다." : !me ? "관전 중이에요." : left <= 0 ? "이번 단계 토큰을 다 썼어요." : "지금은 내 차례가 아니에요. 어떤 카드가 남았는지만 볼 수 있어요."}</p><div class="spread">`;
+  l.cards.forEach((c, i) => {
+    const t = S.locs[c.id], who = t ? (t.drawer || t.char) : null;
+    const can = !t && myTurn && left > 0;
+    const sel = UI.pickc === c.id;
+    h += `<button class="fcard ${t ? "gone" : ""} ${sel ? "sel" : ""}" style="--r:${(i % 2 ? 1 : -1) * (1 + i % 3)}deg" ${can ? `data-act="pickc" data-arg="${c.id}"` : "disabled"}>`
+       + `<span class="back"></span><span class="ttl">${c.title}</span>`
+       + (t ? `<span class="who" style="--cc:${PUBLIC[who] ? PUBLIC[who].color : "#999"}">${PUBLIC[who] ? PUBLIC[who].name : "?"}</span>` : "") + `</button>`;
+  });
+  h += `</div>`;
+  if(UI.pickc && l.cards.some(c => c.id === UI.pickc) && !S.locs[UI.pickc]){
+    const c = l.cards.find(x => x.id === UI.pickc);
+    h += `<div class="confirm"><p>「${c.title}」${jo(c.title, "을", "를")} 가져올까요? 토큰 1개를 씁니다.</p><div class="row"><button class="btn" data-act="draw" data-arg="${c.id}">가져오기</button><button class="btn ghost" data-act="pickc" data-arg="">다시 고르기</button></div></div>`;
+  }
+  return h + `</div></div>`;
+}
+function flipHTML(){
+  if(!UI.flip) return "";
+  const c = cardById(UI.flip); if(!c) return "";
+  return `<div class="modal" data-act="flipok" data-arg="bg"><div class="flipwrap"><div class="flipcard"><div class="face front"><span class="back"></span></div><div class="face backside"><span class="tagline">${c.loc.name}</span><h3>${c.title}</h3><div class="fbody">${c.body}</div><div class="row"><button class="btn" data-act="flipok">소지 정보에 넣기</button></div></div></div></div></div>`;
 }
 function commonHiddenHTML(){
   const ch = D().commonHidden; if(!ch) return "";
@@ -823,7 +929,7 @@ const A = {
     const rec = {char: me, drawer: me, uid, at: Date.now(), ph: phase()};
     if(mode === "local"){ S.locs[card.id] = rec; saveLocal(); }
     else await claimDoc("locs/"+card.id, rec);
-    toast(`「${card.title}」 카드를 가져왔어요. 오른쪽 「소지 정보」에 있어요`);
+    UI.deck = null; UI.pickc = null; UI.flip = card.id;
   },
   async seat(c){
     if(!PUBLIC[c]) return;
@@ -924,6 +1030,10 @@ document.addEventListener("click", e => {
     case "leave": return run(() => A.leave());
     case "loc": return run(() => A.loc(arg));
     case "draw": return run(() => A.draw(arg));
+    case "deck": UI.deck = arg; UI.pickc = null; return render();
+    case "deckclose": if(arg === "bg" && e.target !== b) return; UI.deck = null; UI.pickc = null; return render();
+    case "pickc": UI.pickc = arg || null; return render();
+    case "flipok": if(arg === "bg" && e.target !== b) return; UI.flip = null; return render();
     case "cello": return run(() => A.cello(arg));
     case "give": return run(() => A.give(arg));
     case "givec": return run(() => A.givec(arg));
