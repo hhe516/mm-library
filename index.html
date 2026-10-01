@@ -9,17 +9,17 @@
 <style>
 :root{
   --bg:#EFEAE2; --paper:#FFFDF9; --ink:#231F1C; --muted:#6B625A; --line:#E0D6C9;
-  --lib:#2D4868; --lib-soft:#E3EAF3; --cw:#C8607A; --cw-soft:#FBE7EC;
+  --lib:#2D4868; --lib-soft:#E3EAF3; --cw:#C8607A; --cw-soft:#FBE7EC; --rm:#B8452F; --rm-soft:#FBE4DD;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#14161B; --paper:#1D2028; --ink:#ECE7E1; --muted:#A39A90; --line:#2F333D;
-    --lib:#8FB2DE; --lib-soft:#1F2A3A; --cw:#F09BB0; --cw-soft:#3A2230;
+    --lib:#8FB2DE; --lib-soft:#1F2A3A; --cw:#F09BB0; --cw-soft:#3A2230; --rm:#F0937E; --rm-soft:#3A241E;
   }
 }
 :root[data-theme="dark"]{
   --bg:#14161B; --paper:#1D2028; --ink:#ECE7E1; --muted:#A39A90; --line:#2F333D;
-  --lib:#8FB2DE; --lib-soft:#1F2A3A; --cw:#F09BB0; --cw-soft:#3A2230;
+  --lib:#8FB2DE; --lib-soft:#1F2A3A; --cw:#F09BB0; --cw-soft:#3A2230; --rm:#F0937E; --rm-soft:#3A241E;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6}
@@ -33,6 +33,7 @@ h1{font-size:clamp(28px,5vw,40px);margin:0 0 6px;font-weight:800;letter-spacing:
 .game::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:var(--ac)}
 .lib{--ac:var(--lib);--soft:var(--lib-soft)}
 .cw{--ac:var(--cw);--soft:var(--cw-soft)}
+.rm{--ac:var(--rm);--soft:var(--rm-soft)}
 .tag{justify-self:start;background:var(--soft);color:var(--ac);font-size:12.5px;font-weight:700;border-radius:999px;padding:3px 10px}
 .game h2{margin:0;font-size:22px;line-height:1.3}
 .game p{margin:0;color:var(--muted);font-size:14.5px}
@@ -49,10 +50,17 @@ h1{font-size:clamp(28px,5vw,40px);margin:0 0 6px;font-weight:800;letter-spacing:
   <p class="lead">할 게임을 고르세요. 들어가면 방이 만들어지고, 그 주소를 친구들에게 보내면 같은 방에 들어옵니다.</p>
   <div class="grid">
     <a class="game cw" href="chiikawa/">
-      <span class="tag">본편</span>
+      <span class="tag">본편 · 5인</span>
       <h2>첫눈 오는 밤, 달무리 찻집</h2>
       <p>첫눈이 내린 밤, 언덕 위 찻집. 아침이 오기 전에 무슨 일이 있었는지 알아내야 한다.</p>
       <div class="meta"><span><b>5인</b></span><span>약 <b>110분</b></span><span>GM 없음</span></div>
+      <span class="go">들어가기 →</span>
+    </a>
+    <a class="game rm" href="ramen/">
+      <span class="tag">본편 · 7인</span>
+      <h2>등불 축제의 밤, 라멘 郎</h2>
+      <p>불꽃이 터지던 20분. 문 닫은 라멘집에서 일어난 일을 일곱이 함께 밝혀낸다.</p>
+      <div class="meta"><span><b>7인</b></span><span>약 <b>130분</b></span><span>GM 없음</span></div>
       <span class="go">들어가기 →</span>
     </a>
     <a class="game lib" href="library/">
