@@ -9,17 +9,17 @@
 <style>
 :root{
   --bg:#EFEAE2; --paper:#FFFDF9; --ink:#231F1C; --muted:#6B625A; --line:#E0D6C9;
-  --lib:#2D4868; --lib-soft:#E3EAF3; --cw:#C8607A; --cw-soft:#FBE7EC; --rm:#B8452F; --rm-soft:#FBE4DD;
+  --lib:#2D4868; --lib-soft:#E3EAF3; --cw:#C8607A; --cw-soft:#FBE7EC; --rm:#B8452F; --rm-soft:#FBE4DD; --ch:#8A5A2B; --ch-soft:#F3E7D8;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#14161B; --paper:#1D2028; --ink:#ECE7E1; --muted:#A39A90; --line:#2F333D;
-    --lib:#8FB2DE; --lib-soft:#1F2A3A; --cw:#F09BB0; --cw-soft:#3A2230; --rm:#F0937E; --rm-soft:#3A241E;
+    --lib:#8FB2DE; --lib-soft:#1F2A3A; --cw:#F09BB0; --cw-soft:#3A2230; --rm:#F0937E; --rm-soft:#3A241E; --ch:#D9AE7E; --ch-soft:#33281E;
   }
 }
 :root[data-theme="dark"]{
   --bg:#14161B; --paper:#1D2028; --ink:#ECE7E1; --muted:#A39A90; --line:#2F333D;
-  --lib:#8FB2DE; --lib-soft:#1F2A3A; --cw:#F09BB0; --cw-soft:#3A2230; --rm:#F0937E; --rm-soft:#3A241E;
+  --lib:#8FB2DE; --lib-soft:#1F2A3A; --cw:#F09BB0; --cw-soft:#3A2230; --rm:#F0937E; --rm-soft:#3A241E; --ch:#D9AE7E; --ch-soft:#33281E;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6}
@@ -34,6 +34,7 @@ h1{font-size:clamp(28px,5vw,40px);margin:0 0 6px;font-weight:800;letter-spacing:
 .lib{--ac:var(--lib);--soft:var(--lib-soft)}
 .cw{--ac:var(--cw);--soft:var(--cw-soft)}
 .rm{--ac:var(--rm);--soft:var(--rm-soft)}
+.ch{--ac:var(--ch);--soft:var(--ch-soft)}
 .tag{justify-self:start;background:var(--soft);color:var(--ac);font-size:12.5px;font-weight:700;border-radius:999px;padding:3px 10px}
 .game h2{margin:0;font-size:22px;line-height:1.3}
 .game p{margin:0;color:var(--muted);font-size:14.5px}
@@ -54,6 +55,13 @@ h1{font-size:clamp(28px,5vw,40px);margin:0 0 6px;font-weight:800;letter-spacing:
       <h2>첫눈 오는 밤, 달무리 찻집</h2>
       <p>첫눈이 내린 밤, 언덕 위 찻집. 아침이 오기 전에 무슨 일이 있었는지 알아내야 한다.</p>
       <div class="meta"><span><b>5인</b></span><span>약 <b>110분</b></span><span>GM 없음</span></div>
+      <span class="go">들어가기 →</span>
+    </a>
+    <a class="game ch" href="cheers/">
+      <span class="tag">본편 · 7인</span>
+      <h2>건배는 자격자만</h2>
+      <p>음주 자격 합격 축하 파티. 자격증이 있어야만 열리는 창고에서 독이 사라졌다.</p>
+      <div class="meta"><span><b>7인</b></span><span>약 <b>130분</b></span><span>GM 없음</span></div>
       <span class="go">들어가기 →</span>
     </a>
     <a class="game rm" href="ramen/">
